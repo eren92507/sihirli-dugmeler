@@ -367,9 +367,10 @@
       background: rgba(30,26,18,0.82); z-index: 88000;
       display: flex; align-items: center; justify-content: center;
       padding: 24px; box-sizing: border-box;
-      opacity: 0; transition: opacity 0.4s; backdrop-filter: blur(3px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s; backdrop-filter: blur(3px);
     }
-    #sihrModal.acik { opacity: 1; }
+    #sihrModal.acik { opacity: 1; pointer-events: all; }
     #sihrKutu {
       background: linear-gradient(160deg,#fdf8ef,#f5ead8);
       border: 1px solid #c9a85c; border-radius: 14px;
