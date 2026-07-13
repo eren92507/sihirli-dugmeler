@@ -643,38 +643,38 @@
   <!-- AYARLAR PANELİ + BUTONU -->
   <div id="ayarlarPanel">
     <div class="ayar-sekmeler">
-      <button class="ayar-sekme acik" id="sekmeGenel" onclick="ayarSekme('genel')">⚙ Genel</button>
-      <button class="ayar-sekme" id="sekmeDil" onclick="ayarSekme('dil')">🌐 Dil</button>
+      <button class="ayar-sekme acik" id="sekmeGenel" onclick="ayarSekme('genel')">⚙ General</button>
+      <button class="ayar-sekme" id="sekmeDil" onclick="ayarSekme('dil')">🌐 Language</button>
     </div>
 
-    <!-- Genel sekmesi -->
+    <!-- General tab -->
     <div id="panelGenel">
       <div class="ayar-ziyaret">
-        <span id="zOnceTxt">Bu sayfayı </span><span id="ziyaretSayisi">1</span><span id="zSonraTxt"> kez açtın</span>
+        <span id="zOnceTxt">You've opened this page </span><span id="ziyaretSayisi">1</span><span id="zSonraTxt"> times</span>
       </div>
       <div class="ayar-satir">
-        <span class="ayar-etiket">🔊 Ses efektleri</span>
+        <span class="ayar-etiket">🔊 Sound effects</span>
         <button class="ayar-toggle on" id="sesToggle" onclick="ayarSesToggle()"></button>
       </div>
       <div class="ayar-satir">
-        <span class="ayar-etiket">🕐 Saat partikülleri</span>
+        <span class="ayar-etiket">🕐 Clock particles</span>
         <button class="ayar-toggle on" id="partikülToggle" onclick="ayarPartikülToggle()"></button>
       </div>
       <div class="ayar-satir">
-        <span class="ayar-etiket">😴 Uyku dedektörü</span>
+        <span class="ayar-etiket">😴 Sleep detector</span>
         <button class="ayar-toggle on" id="uykuToggle" onclick="ayarUykuToggle()"></button>
       </div>
       <div class="ayar-satir">
-        <span class="ayar-etiket">🌙 Gece modu</span>
+        <span class="ayar-etiket">🌙 Night mode</span>
         <button class="ayar-toggle" id="geceToggle" onclick="geceModuToggle();ayarGeceSync()"></button>
       </div>
       <div class="ayar-satir">
-        <span class="ayar-etiket">👋 Ziyaret bildirimi</span>
+        <span class="ayar-etiket">👋 Visit notification</span>
         <button class="ayar-toggle on" id="ziyaretToggle" onclick="ayarZiyaretToggle()"></button>
       </div>
     </div>
 
-    <!-- Dil sekmesi -->
+    <!-- Language tab -->
     <div id="panelDil" style="display:none;">
       <div class="dil-sec aktif" id="dil-tr" onclick="dilUygula('tr')">🇹🇷 Türkçe <span class="dil-tik">✓</span></div>
       <div class="dil-sec" id="dil-en" onclick="dilUygula('en')">🇬🇧 English <span class="dil-tik">✓</span></div>
@@ -891,9 +891,9 @@
         'font-weight:bold; letter-spacing:12px; opacity:0; transition:opacity 2s ease-in;' +
         'animation:vecnaGlow 2.5s ease-in-out infinite;">03:30</div>' +
         '<div id="vAlt" style="color:#550000; font-size:15px; font-family:Courier New,monospace;' +
-        'margin-top:28px; letter-spacing:5px; opacity:0; transition:opacity 1.5s ease-in;">o sizi buluyor...</div>' +
+        'margin-top:28px; letter-spacing:5px; opacity:0; transition:opacity 1.5s ease-in;">it finds you...</div>' +
         '<div id="vIpucu" style="color:#1e1e1e; font-size:11px; font-family:Courier New,monospace;' +
-        'position:absolute; bottom:24px; letter-spacing:2px; opacity:0; transition:opacity 1s ease-in;">[ tıkla ]</div>';
+        'position:absolute; bottom:24px; letter-spacing:2px; opacity:0; transition:opacity 1s ease-in;">[ click ]</div>';
 
       document.body.appendChild(overlay);
 
@@ -1244,6 +1244,11 @@
       if (mesaj.trim().toLowerCase() === "the.gravity.zone.entertainment" && yasakModAktif) {
         document.getElementById("anonsGir").value = "";
         gravityBaslat();
+        return;
+      }
+      if (mesaj.trim().toLowerCase() === "come.home" && yasakModAktif) {
+        document.getElementById("anonsGir").value = "";
+        nostaljiGoster();
         return;
       }
       document.getElementById("anonsYazi").textContent = mesaj;
@@ -1773,6 +1778,126 @@
     };
     function morseeCevir(t) {
       return t.toUpperCase().split('').map(c => MORSE_TABLO[c] || '').filter(Boolean).join(' ');
+    }
+
+    function nostaljiGoster() {
+      if (document.getElementById("nostaljiOv")) return;
+
+      const ov = document.createElement("div");
+      ov.id = "nostaljiOv";
+      ov.style.cssText =
+        "position:fixed;top:0;left:0;width:100%;height:100%;background:#0d0918;" +
+        "z-index:99000;overflow:hidden;font-family:'Courier New',Courier,monospace;" +
+        "cursor:pointer;opacity:0;transition:opacity 1.6s;";
+
+      // scanlines
+      const sc = document.createElement("div");
+      sc.style.cssText =
+        "position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;" +
+        "background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.28) 2px,rgba(0,0,0,0.28) 4px);";
+      ov.appendChild(sc);
+
+      // VHS REC stamp
+      const rec = document.createElement("div");
+      rec.style.cssText =
+        "position:absolute;top:18px;left:22px;color:#cc2222;font-size:11px;" +
+        "letter-spacing:2px;z-index:5;font-family:'Courier New',monospace;";
+      rec.innerHTML = "&#9679; REC &nbsp;&nbsp; 00:00:00 &nbsp; VHS";
+      ov.appendChild(rec);
+      let recV = true;
+      const recInt = setInterval(function() {
+        recV = !recV; rec.style.opacity = recV ? "1" : "0.25";
+      }, 900);
+
+      // content column
+      const con = document.createElement("div");
+      con.style.cssText =
+        "position:relative;z-index:3;padding:56px 80px;max-width:720px;" +
+        "margin:0 auto;height:100%;display:flex;flex-direction:column;justify-content:center;";
+      ov.appendChild(con);
+
+      // audio drone
+      let drone1 = null, drone2 = null, dGain1 = null, dGain2 = null;
+      if (audioCtx && !sesKapali) {
+        try {
+          drone1  = audioCtx.createOscillator();
+          drone2  = audioCtx.createOscillator();
+          dGain1  = audioCtx.createGain();
+          dGain2  = audioCtx.createGain();
+          drone1.type = "sine"; drone1.frequency.value = 55;
+          drone2.type = "sine"; drone2.frequency.value = 82.4;
+          dGain1.gain.setValueAtTime(0, audioCtx.currentTime);
+          dGain1.gain.linearRampToValueAtTime(0.07, audioCtx.currentTime + 2.5);
+          dGain2.gain.setValueAtTime(0, audioCtx.currentTime);
+          dGain2.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + 3.2);
+          drone1.connect(dGain1); drone2.connect(dGain2);
+          dGain1.connect(masterGain); dGain2.connect(masterGain);
+          drone1.start(); drone2.start();
+        } catch(e) {}
+      }
+
+      // close handler
+      function nostaljiKapat() {
+        clearInterval(recInt);
+        if (dGain1) { try { dGain1.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.4); dGain2.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.4); setTimeout(function() { try { drone1.stop(); drone2.stop(); } catch(e){} }, 1500); } catch(e){} }
+        ov.style.opacity = "0";
+        setTimeout(function() { if (ov.parentNode) ov.remove(); }, 1600);
+      }
+      ov.addEventListener("click", nostaljiKapat, { once: true });
+      document.addEventListener("keydown", function esc(e) {
+        if (e.key === "Escape") { document.removeEventListener("keydown", esc); nostaljiKapat(); }
+      });
+
+      document.body.appendChild(ov);
+      requestAnimationFrame(function() { ov.style.opacity = "1"; });
+
+      // typewriter lines
+      const lines = [
+        { t:0,     c:"#39ff14", s:"C:\\HOME\\>_" },
+        { t:400,   c:"",        s:"" },
+        { t:900,   c:"#8b5cf6", s:"[ LOADING PERSONAL ARCHIVE ]" },
+        { t:1200,  c:"",        s:"" },
+        { t:1700,  c:"#f5d87a", s:"████████████░░░░░░░░░░ 52%" },
+        { t:2200,  c:"#2e1f45", s:"... please wait ..." },
+        { t:3100,  c:"",        s:"" },
+        { t:3900,  c:"#4a3d60", s:"—  RECOVERED ITEMS  —" },
+        { t:4300,  c:"",        s:"" },
+        { t:4900,  c:"#c4f0ff", s:"∙  the smell of a specific room  ·······  LOCATED" },
+        { t:5800,  c:"#c4f0ff", s:"∙  a voice you can’t quite place  ·····  LOCATED" },
+        { t:6700,  c:"#ff6b9d", s:"∙  the last time you felt safe  ······  CORRUPTED" },
+        { t:7700,  c:"#c0392b", s:"∙  something you promised to remember  ·  MISSING" },
+        { t:8700,  c:"",        s:"" },
+        { t:9300,  c:"#1e1030", s:"————————————————————————" },
+        { t:9800,  c:"",        s:"" },
+        { t:10700, c:"#e8d5ff", s:"do you remember the house on the hill?" },
+        { t:11700, c:"",        s:"" },
+        { t:12500, c:"#4a3d60", s:"no." },
+        { t:13600, c:"",        s:"" },
+        { t:14800, c:"#c4f0ff", s:"we do." },
+        { t:15800, c:"",        s:"" },
+        { t:17000, c:"#f5d87a", s:"you were happier then." },
+        { t:18100, c:"",        s:"" },
+        { t:19400, c:"#8b5cf6", s:"we kept the rest." },
+        { t:20300, c:"#6d28d9", s:"for when you’re ready." },
+      ];
+
+      lines.forEach(function(l) {
+        setTimeout(function() {
+          const p = document.createElement("p");
+          p.style.cssText = "margin:0 0 3px;font-size:14px;line-height:1.7;" + (l.c ? "color:" + l.c + ";" : "color:#0d0918;");
+          p.textContent = l.s;
+          con.appendChild(p);
+        }, l.t);
+      });
+
+      // faint close hint after sequence
+      setTimeout(function() {
+        const h = document.createElement("div");
+        h.style.cssText = "position:absolute;bottom:22px;right:26px;color:#1e1030;font-size:10px;letter-spacing:1.5px;z-index:5;opacity:0;transition:opacity 2.5s;";
+        h.textContent = "[ click anywhere to leave ]";
+        ov.appendChild(h);
+        setTimeout(function() { h.style.opacity = "1"; }, 200);
+      }, 21000);
     }
 
     function gWebsiteSekme(id) {
