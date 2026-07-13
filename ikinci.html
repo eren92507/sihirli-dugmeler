@@ -2690,6 +2690,183 @@
       if (aktifEl) aktifEl.classList.add('aktif');
     }
 
+    // ── BAŞLANGIC EKRANI ─────────────────────────────────────────
+    (function() {
+      function profilAl()      { try { return JSON.parse(localStorage.getItem("zh_profil")); } catch(e) { return null; } }
+      function profilKaydet(p) { try { localStorage.setItem("zh_profil", JSON.stringify(p)); } catch(e) {} }
+      function profilSil()     { try { localStorage.removeItem("zh_profil"); } catch(e) {} }
+
+      function ekraniKapat() {
+        const ov = document.getElementById("baslamaEkrani");
+        if (!ov) return;
+        ov.style.opacity = "0";
+        setTimeout(function() { if (ov.parentNode) ov.remove(); }, 500);
+      }
+
+      function kayitEkraniGoster() {
+        const eski = document.getElementById("baslamaEkrani");
+        if (eski) eski.remove();
+
+        const ov = document.createElement("div");
+        ov.id = "baslamaEkrani";
+        ov.style.cssText =
+          "position:fixed;top:0;left:0;width:100%;height:100%;background:#f5f0e8;" +
+          "z-index:99999;display:flex;align-items:center;justify-content:center;" +
+          "flex-direction:column;font-family:'Courier New',monospace;" +
+          "opacity:0;transition:opacity 0.5s;";
+
+        const kutu = document.createElement("div");
+        kutu.style.cssText = "text-align:center;max-width:380px;padding:40px 32px;width:90%;";
+        kutu.innerHTML =
+          '<p style="color:#8b7355;font-size:11px;letter-spacing:4px;margin:0 0 8px;">SİHİRLİ DÜĞMELER</p>' +
+          '<h2 style="color:rgb(45,43,94);font-size:20px;margin:0 0 6px;font-weight:700;font-family:serif;letter-spacing:-0.3px;">başlamadan önce</h2>' +
+          '<p style="color:#8b7355;font-size:12px;margin:0 0 32px;letter-spacing:0.5px;">seni tanıyalım</p>' +
+
+          '<div style="text-align:left;margin-bottom:14px;">' +
+            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">Adın</label>' +
+            '<input id="girisAd" type="text" placeholder="adını yaz" autocomplete="off"' +
+            ' style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c9a85c;border-radius:8px;background:#fdf8f0;color:rgb(45,43,94);font-size:15px;outline:none;font-family:inherit;">' +
+          '</div>' +
+
+          '<div style="text-align:left;margin-bottom:14px;">' +
+            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">Yaşın</label>' +
+            '<input id="girisYas" type="text" placeholder="kaç yaşındasın" autocomplete="off"' +
+            ' style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c9a85c;border-radius:8px;background:#fdf8f0;color:rgb(45,43,94);font-size:15px;outline:none;font-family:inherit;">' +
+          '</div>' +
+
+          '<div style="text-align:left;margin-bottom:28px;">' +
+            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">En sevdiğin yemek</label>' +
+            '<input id="girisYemek" type="text" placeholder="neyse o" autocomplete="off"' +
+            ' style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c9a85c;border-radius:8px;background:#fdf8f0;color:rgb(45,43,94);font-size:15px;outline:none;font-family:inherit;">' +
+          '</div>' +
+
+          '<button id="baslamaKaydet"' +
+          ' style="width:100%;background:rgb(45,43,94);color:#fff;border:none;padding:13px;border-radius:8px;font-size:14px;cursor:pointer;letter-spacing:0.5px;transition:opacity 0.2s;"' +
+          ' onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Başla →</button>' +
+
+          '<p id="baslamaHata" style="color:#c0392b;font-size:12px;margin:10px 0 0;min-height:16px;letter-spacing:0.3px;"></p>';
+
+        ov.appendChild(kutu);
+        document.body.appendChild(ov);
+        requestAnimationFrame(function() { ov.style.opacity = "1"; });
+
+        setTimeout(function() {
+          const adEl = document.getElementById("girisAd");
+          if (adEl) adEl.focus();
+        }, 100);
+
+        document.getElementById("baslamaKaydet").addEventListener("click", function() {
+          const ad    = document.getElementById("girisAd").value.trim();
+          const yas   = document.getElementById("girisYas").value.trim();
+          const yemek = document.getElementById("girisYemek").value.trim();
+          if (!ad) {
+            document.getElementById("baslamaHata").textContent = "adını yazmadan olmaz.";
+            document.getElementById("girisAd").focus();
+            return;
+          }
+          profilKaydet({ ad: ad, yas: yas || "?", yemek: yemek || "?" });
+          ekraniKapat();
+        });
+
+        ov.addEventListener("keydown", function(e) {
+          if (e.key === "Enter") document.getElementById("baslamaKaydet").click();
+        });
+      }
+
+      function hosgeldinEkraniGoster(profil) {
+        const eski = document.getElementById("baslamaEkrani");
+        if (eski) eski.remove();
+
+        const ov = document.createElement("div");
+        ov.id = "baslamaEkrani";
+        ov.style.cssText =
+          "position:fixed;top:0;left:0;width:100%;height:100%;background:#f5f0e8;" +
+          "z-index:99999;display:flex;align-items:center;justify-content:center;" +
+          "flex-direction:column;font-family:'Courier New',monospace;" +
+          "opacity:0;transition:opacity 0.5s;";
+
+        const kutu = document.createElement("div");
+        kutu.style.cssText = "text-align:center;max-width:380px;padding:40px 32px;";
+
+        const etiket = document.createElement("p");
+        etiket.style.cssText = "color:#8b7355;font-size:11px;letter-spacing:4px;margin:0 0 8px;";
+        etiket.textContent = "TEKRAR HOŞ GELDİN";
+
+        const ad = document.createElement("h1");
+        ad.style.cssText = "color:rgb(45,43,94);font-size:clamp(28px,7vw,44px);margin:0 0 24px;font-family:serif;font-weight:700;";
+        ad.textContent = profil.ad;
+
+        const bilgi = document.createElement("p");
+        bilgi.style.cssText = "color:#8b7355;font-size:13px;margin:0 0 36px;line-height:2;";
+
+        const yas = document.createElement("span");
+        yas.textContent = profil.yas;
+        const yemek = document.createElement("strong");
+        yemek.textContent = profil.yemek;
+
+        bilgi.appendChild(document.createTextNode(""));
+        bilgi.innerHTML = "";
+        const l1 = document.createElement("span");
+        l1.textContent = profil.yas + " yaşındasın";
+        const br1 = document.createElement("br");
+        const l2 = document.createElement("span");
+        l2.appendChild(document.createTextNode("ve en sevdiğin yemek "));
+        const b = document.createElement("strong");
+        b.style.color = "rgb(45,43,94)";
+        b.textContent = profil.yemek;
+        l2.appendChild(b);
+        l2.appendChild(document.createTextNode("."));
+        const br2 = document.createElement("br");
+        const l3 = document.createElement("span");
+        l3.style.cssText = "font-size:11px;opacity:0.5;letter-spacing:0.5px;";
+        l3.textContent = "hepsini hatırlıyoruz.";
+        bilgi.appendChild(l1); bilgi.appendChild(br1);
+        bilgi.appendChild(l2); bilgi.appendChild(br2);
+        bilgi.appendChild(l3);
+
+        const devamBtn = document.createElement("button");
+        devamBtn.style.cssText =
+          "background:rgb(45,43,94);color:#fff;border:none;padding:11px 36px;" +
+          "border-radius:8px;font-size:14px;cursor:pointer;letter-spacing:0.5px;" +
+          "display:block;margin:0 auto 20px;transition:opacity 0.2s;";
+        devamBtn.textContent = "Devam →";
+        devamBtn.onmouseover = function() { this.style.opacity = "0.85"; };
+        devamBtn.onmouseout  = function() { this.style.opacity = "1"; };
+        devamBtn.addEventListener("click", ekraniKapat);
+
+        const yeniBtn = document.createElement("button");
+        yeniBtn.style.cssText =
+          "background:none;border:none;color:#b0956a;font-size:11px;" +
+          "letter-spacing:2px;cursor:pointer;text-decoration:underline;" +
+          "font-family:'Courier New',monospace;padding:4px 8px;";
+        yeniBtn.textContent = "Yeni hesap";
+        yeniBtn.addEventListener("click", function() {
+          profilSil();
+          kayitEkraniGoster();
+        });
+
+        kutu.appendChild(etiket);
+        kutu.appendChild(ad);
+        kutu.appendChild(bilgi);
+        kutu.appendChild(devamBtn);
+        kutu.appendChild(yeniBtn);
+        ov.appendChild(kutu);
+        document.body.appendChild(ov);
+        requestAnimationFrame(function() { ov.style.opacity = "1"; });
+
+        document.addEventListener("keydown", function ilk(e) {
+          if (e.key === "Enter") { document.removeEventListener("keydown", ilk); ekraniKapat(); }
+        });
+      }
+
+      const profil = profilAl();
+      if (profil) {
+        hosgeldinEkraniGoster(profil);
+      } else {
+        kayitEkraniGoster();
+      }
+    })();
+
   </script>
 
   <!-- BUTON SİHRİ MODAL -->
