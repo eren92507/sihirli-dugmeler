@@ -698,6 +698,7 @@
     <div class="ayar-sekmeler">
       <button class="ayar-sekme acik" id="sekmeGenel" onclick="ayarSekme('genel')">⚙ General</button>
       <button class="ayar-sekme" id="sekmeDil" onclick="ayarSekme('dil')">🌐 Language</button>
+      <button class="ayar-sekme" id="sekmeHesap" onclick="ayarSekme('hesap')">👤 Account</button>
     </div>
 
     <!-- General tab -->
@@ -725,7 +726,12 @@
         <span class="ayar-etiket">👋 Visit notification</span>
         <button class="ayar-toggle on" id="ziyaretToggle" onclick="ayarZiyaretToggle()"></button>
       </div>
-      <div class="ayar-satir" style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(139,115,85,0.15);">
+    </div>
+
+    <!-- Account tab -->
+    <div id="panelHesap" style="display:none;">
+      <div id="hesapBilgi" style="font-size:11px;line-height:2;padding:4px 0 8px;opacity:0.85;"></div>
+      <div class="ayar-satir" style="margin-top:4px;padding-top:8px;border-top:1px solid rgba(139,115,85,0.15);">
         <span class="ayar-etiket" style="color:#b05050;">🗑 Delete account</span>
         <button onclick="hesapSil()"
                 style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid #b05050;
@@ -1891,30 +1897,126 @@
         "margin:0 auto;height:100%;display:flex;flex-direction:column;justify-content:center;";
       ov.appendChild(con);
 
-      // audio drone
-      let drone1 = null, drone2 = null, dGain1 = null, dGain2 = null;
-      if (audioCtx && !sesKapali) {
+      // audio: slowed vecna drone + fire
+      let nostaljiSesDur = function(){};
+      if (!sesKapali) {
         try {
-          drone1  = audioCtx.createOscillator();
-          drone2  = audioCtx.createOscillator();
-          dGain1  = audioCtx.createGain();
-          dGain2  = audioCtx.createGain();
-          drone1.type = "sine"; drone1.frequency.value = 55;
-          drone2.type = "sine"; drone2.frequency.value = 82.4;
-          dGain1.gain.setValueAtTime(0, audioCtx.currentTime);
-          dGain1.gain.linearRampToValueAtTime(0.07, audioCtx.currentTime + 2.5);
-          dGain2.gain.setValueAtTime(0, audioCtx.currentTime);
-          dGain2.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + 3.2);
-          drone1.connect(dGain1); drone2.connect(dGain2);
-          dGain1.connect(masterGain); dGain2.connect(masterGain);
-          drone1.start(); drone2.start();
+          const ctx = sesCtxAl();
+          ctx.resume();
+          const now = ctx.currentTime;
+          const fadeGains = []; // collected for clean shutdown
+          const srcs = [];      // oscillators / buffer sources to .stop()
+
+          // ── Drone (Vecna sawtooth, less bass, lower gain) ────────
+          const drOsc  = ctx.createOscillator();
+          const drFilt = ctx.createBiquadFilter();
+          const drGain = ctx.createGain();
+          drOsc.type = "sawtooth";
+          drOsc.frequency.value = 48;          // 27.5→48: less sub-bass
+          drFilt.type = "bandpass";
+          drFilt.frequency.value = 210;
+          drFilt.Q.value = 1.1;
+          drGain.gain.setValueAtTime(0, now);
+          drGain.gain.linearRampToValueAtTime(0.18, now + 4);
+          drOsc.connect(drFilt); drFilt.connect(drGain); drGain.connect(ctx.destination);
+          drOsc.start(now);
+          fadeGains.push(drGain); srcs.push(drOsc);
+
+          // Breathing LFO on drone
+          const breathLFO  = ctx.createOscillator();
+          const breathGain = ctx.createGain();
+          breathLFO.frequency.value = 0.22;
+          breathGain.gain.value = 0.018;
+          breathLFO.connect(breathGain); breathGain.connect(drGain.gain);
+          breathLFO.start(now);
+          srcs.push(breathLFO);
+
+          // ── Slow Vecna bells (looping while overlay is open) ────
+          function bellleriBaslat() {
+            if (!document.getElementById("nostaljiOv")) return;
+            const t = ctx.currentTime;
+            [{hz:196, t:7, dur:7}, {hz:164.8, t:12, dur:7.5}, {hz:130.8, t:17, dur:9}]
+            .forEach(function(bell) {
+              [[bell.hz, 0.27], [bell.hz * 2.76, 0.09]].forEach(function(pair, idx) {
+                const o = ctx.createOscillator();
+                const g = ctx.createGain();
+                o.type = "sine";
+                o.frequency.value = pair[0];
+                g.gain.setValueAtTime(0, t + bell.t);
+                g.gain.linearRampToValueAtTime(pair[1], t + bell.t + 0.07);
+                g.gain.exponentialRampToValueAtTime(0.001, t + bell.t + bell.dur * (idx === 0 ? 1 : 0.55));
+                o.connect(g); g.connect(ctx.destination);
+                o.start(t + bell.t); o.stop(t + bell.t + bell.dur);
+              });
+            });
+            setTimeout(bellleriBaslat, (17 + 9 + 2) * 1000);
+          }
+          bellleriBaslat();
+
+          // ── Fire: roar (low noise) ───────────────────────────────
+          const roarBuf  = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate);
+          const roarData = roarBuf.getChannelData(0);
+          for (let i = 0; i < roarData.length; i++) roarData[i] = Math.random() * 2 - 1;
+          const roarSrc  = ctx.createBufferSource();
+          roarSrc.buffer = roarBuf; roarSrc.loop = true;
+          const roarFilt = ctx.createBiquadFilter();
+          roarFilt.type = "lowpass"; roarFilt.frequency.value = 340;
+          const roarGain = ctx.createGain();
+          roarGain.gain.setValueAtTime(0, now);
+          roarGain.gain.linearRampToValueAtTime(0.28, now + 2.5);
+          roarSrc.connect(roarFilt); roarFilt.connect(roarGain); roarGain.connect(ctx.destination);
+          roarSrc.start(now);
+          fadeGains.push(roarGain); srcs.push(roarSrc);
+
+          // Flame flicker LFO on roar
+          const flickLFO  = ctx.createOscillator();
+          const flickGain = ctx.createGain();
+          flickLFO.frequency.value = 1.9;
+          flickGain.gain.value = 0.032;
+          flickLFO.connect(flickGain); flickGain.connect(roarGain.gain);
+          flickLFO.start(now);
+          srcs.push(flickLFO);
+
+          // ── Fire: crackle (mid-high noise) ──────────────────────
+          const crBuf  = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+          const crData = crBuf.getChannelData(0);
+          for (let i = 0; i < crData.length; i++) crData[i] = Math.random() * 2 - 1;
+          const crSrc  = ctx.createBufferSource();
+          crSrc.buffer = crBuf; crSrc.loop = true;
+          const crFilt = ctx.createBiquadFilter();
+          crFilt.type = "bandpass"; crFilt.frequency.value = 2100; crFilt.Q.value = 1.4;
+          const crGain = ctx.createGain();
+          crGain.gain.setValueAtTime(0, now);
+          crGain.gain.linearRampToValueAtTime(0.14, now + 1.8);
+          crSrc.connect(crFilt); crFilt.connect(crGain); crGain.connect(ctx.destination);
+          crSrc.start(now);
+          fadeGains.push(crGain); srcs.push(crSrc);
+
+          // Crackle variation LFO
+          const crLFO  = ctx.createOscillator();
+          const crLFOG = ctx.createGain();
+          crLFO.frequency.value = 5.8;
+          crLFOG.gain.value = 0.018;
+          crLFO.connect(crLFOG); crLFOG.connect(crGain.gain);
+          crLFO.start(now);
+          srcs.push(crLFO);
+
+          nostaljiSesDur = function() {
+            const t = ctx.currentTime;
+            fadeGains.forEach(function(g) {
+              try { g.gain.cancelScheduledValues(t); g.gain.linearRampToValueAtTime(0, t + 1.4); } catch(e){}
+            });
+            setTimeout(function() {
+              srcs.forEach(function(n) { try { n.stop(); } catch(e){} });
+            }, 1500);
+          };
         } catch(e) {}
       }
 
       // close handler
       function nostaljiKapat() {
         clearInterval(recInt);
-        if (dGain1) { try { dGain1.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.4); dGain2.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.4); setTimeout(function() { try { drone1.stop(); drone2.stop(); } catch(e){} }, 1500); } catch(e){} }
+        nostaljiSesDur();
         ov.style.opacity = "0";
         setTimeout(function() { if (ov.parentNode) ov.remove(); }, 1600);
       }
@@ -1956,12 +2058,18 @@
         { t:20300, c:"#6d28d9", s:"for when you’re ready." },
       ];
 
+      function klavyeYaz(el, s, i) {
+        if (i >= s.length) return;
+        el.textContent += s[i];
+        setTimeout(function() { klavyeYaz(el, s, i + 1); }, 28 + Math.random() * 38);
+      }
+
       lines.forEach(function(l) {
         setTimeout(function() {
           const p = document.createElement("p");
           p.style.cssText = "margin:0 0 3px;font-size:14px;line-height:1.7;" + (l.c ? "color:" + l.c + ";" : "color:#0d0918;");
-          p.textContent = l.s;
           con.appendChild(p);
+          if (l.s) klavyeYaz(p, l.s, 0);
         }, l.t);
       });
 
@@ -2527,8 +2635,29 @@
     function ayarSekme(sekme) {
       document.getElementById("panelGenel").style.display = sekme === 'genel' ? '' : 'none';
       document.getElementById("panelDil").style.display   = sekme === 'dil'   ? '' : 'none';
+      document.getElementById("panelHesap").style.display = sekme === 'hesap' ? '' : 'none';
       document.getElementById("sekmeGenel").classList.toggle('acik', sekme === 'genel');
       document.getElementById("sekmeDil").classList.toggle('acik', sekme === 'dil');
+      document.getElementById("sekmeHesap").classList.toggle('acik', sekme === 'hesap');
+      if (sekme === 'hesap') {
+        const el = document.getElementById("hesapBilgi");
+        el.textContent = "";
+        try {
+          const p = JSON.parse(localStorage.getItem("zh_profil"));
+          if (p) {
+            [["Name", p.ad], ["Age", p.yas], ["Favorite food", p.yemek]].forEach(function(pair) {
+              const row = document.createElement("div");
+              row.textContent = pair[0] + ": ";
+              const b = document.createElement("b");
+              b.textContent = pair[1];
+              row.appendChild(b);
+              el.appendChild(row);
+            });
+          } else {
+            el.textContent = "No account found.";
+          }
+        } catch(e) { el.textContent = "No account found."; }
+      }
     }
 
     function ayarlarToggle() {
