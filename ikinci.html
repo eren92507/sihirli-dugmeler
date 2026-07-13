@@ -84,6 +84,20 @@
       box-shadow: 0 2px 10px rgba(139,115,85,0.3);
       color: #5a4a2e;
     }
+    #saatAltyazi {
+      position: fixed;
+      top: 46px; right: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 9px;
+      color: var(--kahve-acik);
+      opacity: 0.45;
+      letter-spacing: 0.8px;
+      z-index: 100;
+      text-align: right;
+      user-select: none;
+      transition: opacity 0.9s;
+      pointer-events: none;
+    }
 
     /* GECE MODU BUTONU */
     #geceModu {
@@ -503,6 +517,7 @@
 <body>
 
   <div id="saat"></div>
+  <div id="saatAltyazi"></div>
   <button id="geceModu" onclick="geceModuToggle()">🌙 Gece</button>
 
   <br><br>
@@ -777,6 +792,19 @@
     }
     setInterval(saatiGuncelle, 1000);
     saatiGuncelle();
+
+    (function() {
+      const pron = ["he","she","it"];
+      const el = document.getElementById("saatAltyazi");
+      function watchYaz() {
+        el.textContent = pron[Math.floor(Math.random() * 3)] + " watches you";
+      }
+      watchYaz();
+      setInterval(function() {
+        el.style.opacity = "0";
+        setTimeout(function() { watchYaz(); el.style.opacity = "0.45"; }, 900);
+      }, 6000);
+    })();
 
     // 3x tıkla → saat düzenleme modu (sadece gizli panel açıkken)
     document.getElementById("saat").addEventListener("click", function() {
@@ -1808,23 +1836,23 @@
               Explore Now
             </button>
           </div>
-          <div style="display:flex;justify-content:center;gap:36px;padding:52px 40px;background:#fff;flex-wrap:wrap;">
+          <div style="display:flex;justify-content:center;gap:36px;padding:52px 40px 40px;background:#fff;flex-wrap:wrap;">
             <div style="text-align:center;max-width:190px;">
-              <div style="font-size:34px;margin-bottom:14px;">🎪</div>
               <h3 style="color:#1b4332;margin:0 0 8px;font-size:15px;">Live Events</h3>
               <p style="color:#95d5b2;font-size:13px;margin:0;line-height:1.6;">Experience the magic in person.</p>
             </div>
             <div style="text-align:center;max-width:190px;">
-              <div style="font-size:34px;margin-bottom:14px;">🎬</div>
               <h3 style="color:#1b4332;margin:0 0 8px;font-size:15px;">Media</h3>
               <p style="color:#95d5b2;font-size:13px;margin:0;line-height:1.6;">Stories that stay with you.</p>
             </div>
             <div style="text-align:center;max-width:190px;">
-              <div style="font-size:34px;margin-bottom:14px;">🌐</div>
               <h3 style="color:#1b4332;margin:0 0 8px;font-size:15px;">Digital</h3>
               <p style="color:#95d5b2;font-size:13px;margin:0;line-height:1.6;">Always with you, everywhere.</p>
             </div>
           </div>
+          <p style="font-size:9px;color:rgba(45,106,79,0.2);text-align:center;letter-spacing:1.5px;margin:0;padding:0 40px 28px;background:#fff;">
+            *Your visit has been catalogued. &nbsp; Session: GZ-${Math.random().toString(16).slice(2,10).toUpperCase()}
+          </p>
         </div>
 
         <div id="gw-about" style="display:none;">
@@ -1833,7 +1861,7 @@
             <h2 style="color:#1b4332;font-size:34px;margin:0 0 32px;font-weight:700;">About The Gravity Zone Entertainment</h2>
             <div style="background:#f0faf2;border-left:4px solid #52b788;padding:24px 28px;border-radius:0 12px 12px 0;margin-bottom:36px;">
               <p style="color:#1b4332;font-size:15px;font-style:italic;margin:0 0 10px;line-height:1.75;">
-                "We don't just create entertainment. We craft experiences that change how people see the world — and themselves."
+                "We don't just create entertainment. We craft experiences that change how people see the world — and themselves. You found us. That is not an accident."
               </p>
               <p style="color:#52b788;font-size:12px;margin:0;letter-spacing:1.5px;">— A. MERIDIAN, CEO &amp; Founder</p>
             </div>
@@ -1886,24 +1914,21 @@
             <h2 style="color:#1b4332;font-size:34px;margin:0 0 44px;font-weight:700;">Our Services</h2>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
               <div style="background:#fff;padding:30px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,0.07);">
-                <div style="font-size:36px;margin-bottom:14px;">🎪</div>
                 <h3 style="color:#1b4332;font-size:17px;margin:0 0 10px;">Live Events</h3>
                 <p style="color:#74c69d;font-size:13px;line-height:1.7;margin:0;">Theatrical experiences and immersive shows designed to transport audiences to another world entirely. We handle everything from concept to curtain call.</p>
               </div>
               <div style="background:#fff;padding:30px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,0.07);">
-                <div style="font-size:36px;margin-bottom:14px;">🎬</div>
                 <h3 style="color:#1b4332;font-size:17px;margin:0 0 10px;">Media Production</h3>
                 <p style="color:#74c69d;font-size:13px;line-height:1.7;margin:0;">Films, documentaries, and series that don't just tell stories — they make you feel like you lived them. Our productions have been featured internationally.</p>
               </div>
               <div style="background:#fff;padding:30px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,0.07);">
-                <div style="font-size:36px;margin-bottom:14px;">🌐</div>
                 <h3 style="color:#1b4332;font-size:17px;margin:0 0 10px;">Digital Experiences</h3>
                 <p style="color:#74c69d;font-size:13px;line-height:1.7;margin:0;">Interactive web environments, AR/VR installations, and online worlds that reach audiences wherever they are. The screen is just the beginning.</p>
               </div>
               <div style="background:#fff;padding:30px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,0.07);">
-                <div style="font-size:36px;margin-bottom:14px;">🔬</div>
                 <h3 style="color:#1b4332;font-size:17px;margin:0 0 10px;">Research &amp; Development</h3>
                 <p style="color:#74c69d;font-size:13px;line-height:1.7;margin:0;">We are always exploring new frontiers. Our R&amp;D division investigates the science of experience — what captures the mind, and what holds it.</p>
+                <p style="color:rgba(45,106,79,0.22);font-size:10px;line-height:1.5;margin:10px 0 0;letter-spacing:0.5px;">You are currently participating in one such study.</p>
               </div>
             </div>
           </div>
