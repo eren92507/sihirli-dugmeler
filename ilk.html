@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benim Sayfam</title>
+  <style>
+    :root {
+      --renk-arka-plan: #0d1b4b;
+      --renk-kart:      #1a2e6e;
+      --renk-baslik:    #f5c518;
+      --renk-metin:     #b4c6f2;
+      --renk-vurgu:     #e8513a;
+      --yari-cerceve:   16px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--renk-arka-plan);
+      color: var(--renk-metin);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .kart {
+      background-color: var(--renk-kart);
+      border-radius: var(--yari-cerceve);
+      padding: 48px 40px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .emoji-buyuk {
+      font-size: 80px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      color: var(--renk-baslik);
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
+
+    .tanitim {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.6;
+      margin-bottom: 16px;
+    }
+
+    .liste {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .liste li {
+      background-color: rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 1.05rem;
+    }
+
+    .etiketler {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .etiket {
+      background-color: var(--renk-vurgu);
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .buton {
+      background-color: var(--renk-baslik);
+      color: #0d1b4b;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .buton:hover  { opacity: 0.88; }
+    .buton:active { transform: scale(0.97); }
+  </style>
+</head>
+
+<body>
+  <div class="kart">
+
+    <div class="emoji-buyuk">🚀</div>
+
+    <h1>Merhaba, ben [ADINIZ]!</h1>
+
+    <p class="tanitim">
+      11 yaşındayım ve kod yazmayı öğreniyorum.
+    </p>
+
+    <h2>En Sevdiklerim</h2>
+    <ul class="liste">
+      <li>🎮 Oyunlar</li>
+      <li>🐢 Python Turtle</li>
+      <li>⚽ Futbol</li>
+    </ul>
+
+    <div class="etiketler">
+      <span class="etiket">Kutu 1</span>
+      <span class="etiket">Kutu 2</span>
+    </div>
+
+    <button class="buton" onclick="alert('Butona bastın! 🎉')">Bana Tıkla</button>
+
+  </div>
+</body>
+</html>
