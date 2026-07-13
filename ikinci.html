@@ -725,6 +725,15 @@
         <span class="ayar-etiket">👋 Visit notification</span>
         <button class="ayar-toggle on" id="ziyaretToggle" onclick="ayarZiyaretToggle()"></button>
       </div>
+      <div class="ayar-satir" style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(139,115,85,0.15);">
+        <span class="ayar-etiket" style="color:#b05050;">🗑 Delete account</span>
+        <button onclick="hesapSil()"
+                style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid #b05050;
+                       background:transparent;color:#b05050;cursor:pointer;letter-spacing:0.5px;
+                       transition:background 0.15s,color 0.15s;"
+                onmouseover="this.style.background='#b05050';this.style.color='#fff'"
+                onmouseout="this.style.background='transparent';this.style.color='#b05050'">Delete</button>
+      </div>
     </div>
 
     <!-- Language tab -->
@@ -2564,6 +2573,12 @@
       document.getElementById("geceToggle").classList.toggle("on", geceAktif);
     }
 
+    function hesapSil() {
+      if (!confirm("Delete your account? This cannot be undone.")) return;
+      try { localStorage.removeItem("zh_profil"); } catch(e) {}
+      location.reload();
+    }
+
     // ── DİL / ÇEVİRİ SİSTEMİ ────────────────────────────────────
     const DILLER = {
       tr: {
@@ -2718,31 +2733,31 @@
         const kutu = document.createElement("div");
         kutu.style.cssText = "text-align:center;max-width:380px;padding:40px 32px;width:90%;";
         kutu.innerHTML =
-          '<p style="color:#8b7355;font-size:11px;letter-spacing:4px;margin:0 0 8px;">SİHİRLİ DÜĞMELER</p>' +
-          '<h2 style="color:rgb(45,43,94);font-size:20px;margin:0 0 6px;font-weight:700;font-family:serif;letter-spacing:-0.3px;">başlamadan önce</h2>' +
-          '<p style="color:#8b7355;font-size:12px;margin:0 0 32px;letter-spacing:0.5px;">seni tanıyalım</p>' +
+          '<p style="color:#8b7355;font-size:11px;letter-spacing:4px;margin:0 0 8px;">MAGIC BUTTONS</p>' +
+          '<h2 style="color:rgb(45,43,94);font-size:20px;margin:0 0 6px;font-weight:700;font-family:serif;letter-spacing:-0.3px;">before we begin</h2>' +
+          '<p style="color:#8b7355;font-size:12px;margin:0 0 32px;letter-spacing:0.5px;">let us get to know you</p>' +
 
           '<div style="text-align:left;margin-bottom:14px;">' +
-            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">Adın</label>' +
-            '<input id="girisAd" type="text" placeholder="adını yaz" autocomplete="off"' +
+            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">Your Name</label>' +
+            '<input id="girisAd" type="text" placeholder="type your name" autocomplete="off"' +
             ' style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c9a85c;border-radius:8px;background:#fdf8f0;color:rgb(45,43,94);font-size:15px;outline:none;font-family:inherit;">' +
           '</div>' +
 
           '<div style="text-align:left;margin-bottom:14px;">' +
-            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">Yaşın</label>' +
-            '<input id="girisYas" type="text" placeholder="kaç yaşındasın" autocomplete="off"' +
+            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">Your Age</label>' +
+            '<input id="girisYas" type="text" placeholder="how old are you" autocomplete="off"' +
             ' style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c9a85c;border-radius:8px;background:#fdf8f0;color:rgb(45,43,94);font-size:15px;outline:none;font-family:inherit;">' +
           '</div>' +
 
           '<div style="text-align:left;margin-bottom:28px;">' +
-            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">En sevdiğin yemek</label>' +
-            '<input id="girisYemek" type="text" placeholder="neyse o" autocomplete="off"' +
+            '<label style="display:block;font-size:10px;letter-spacing:2px;color:#8b7355;margin-bottom:6px;text-transform:uppercase;">Favorite Food</label>' +
+            '<input id="girisYemek" type="text" placeholder="whatever it is" autocomplete="off"' +
             ' style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c9a85c;border-radius:8px;background:#fdf8f0;color:rgb(45,43,94);font-size:15px;outline:none;font-family:inherit;">' +
           '</div>' +
 
           '<button id="baslamaKaydet"' +
           ' style="width:100%;background:rgb(45,43,94);color:#fff;border:none;padding:13px;border-radius:8px;font-size:14px;cursor:pointer;letter-spacing:0.5px;transition:opacity 0.2s;"' +
-          ' onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Başla →</button>' +
+          ' onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Begin →</button>' +
 
           '<p id="baslamaHata" style="color:#c0392b;font-size:12px;margin:10px 0 0;min-height:16px;letter-spacing:0.3px;"></p>';
 
@@ -2760,7 +2775,7 @@
           const yas   = document.getElementById("girisYas").value.trim();
           const yemek = document.getElementById("girisYemek").value.trim();
           if (!ad) {
-            document.getElementById("baslamaHata").textContent = "adını yazmadan olmaz.";
+            document.getElementById("baslamaHata").textContent = "a name is required.";
             document.getElementById("girisAd").focus();
             return;
           }
@@ -2790,7 +2805,7 @@
 
         const etiket = document.createElement("p");
         etiket.style.cssText = "color:#8b7355;font-size:11px;letter-spacing:4px;margin:0 0 8px;";
-        etiket.textContent = "TEKRAR HOŞ GELDİN";
+        etiket.textContent = "WELCOME BACK";
 
         const ad = document.createElement("h1");
         ad.style.cssText = "color:rgb(45,43,94);font-size:clamp(28px,7vw,44px);margin:0 0 24px;font-family:serif;font-weight:700;";
@@ -2807,10 +2822,10 @@
         bilgi.appendChild(document.createTextNode(""));
         bilgi.innerHTML = "";
         const l1 = document.createElement("span");
-        l1.textContent = profil.yas + " yaşındasın";
+        l1.textContent = "you are " + profil.yas + " years old";
         const br1 = document.createElement("br");
         const l2 = document.createElement("span");
-        l2.appendChild(document.createTextNode("ve en sevdiğin yemek "));
+        l2.appendChild(document.createTextNode("and your favorite food is "));
         const b = document.createElement("strong");
         b.style.color = "rgb(45,43,94)";
         b.textContent = profil.yemek;
@@ -2819,7 +2834,7 @@
         const br2 = document.createElement("br");
         const l3 = document.createElement("span");
         l3.style.cssText = "font-size:11px;opacity:0.5;letter-spacing:0.5px;";
-        l3.textContent = "hepsini hatırlıyoruz.";
+        l3.textContent = "we remember everything.";
         bilgi.appendChild(l1); bilgi.appendChild(br1);
         bilgi.appendChild(l2); bilgi.appendChild(br2);
         bilgi.appendChild(l3);
@@ -2829,7 +2844,7 @@
           "background:rgb(45,43,94);color:#fff;border:none;padding:11px 36px;" +
           "border-radius:8px;font-size:14px;cursor:pointer;letter-spacing:0.5px;" +
           "display:block;margin:0 auto 20px;transition:opacity 0.2s;";
-        devamBtn.textContent = "Devam →";
+        devamBtn.textContent = "Continue →";
         devamBtn.onmouseover = function() { this.style.opacity = "0.85"; };
         devamBtn.onmouseout  = function() { this.style.opacity = "1"; };
         devamBtn.addEventListener("click", ekraniKapat);
@@ -2839,7 +2854,7 @@
           "background:none;border:none;color:#b0956a;font-size:11px;" +
           "letter-spacing:2px;cursor:pointer;text-decoration:underline;" +
           "font-family:'Courier New',monospace;padding:4px 8px;";
-        yeniBtn.textContent = "Yeni hesap";
+        yeniBtn.textContent = "New account";
         yeniBtn.addEventListener("click", function() {
           profilSil();
           kayitEkraniGoster();
