@@ -428,22 +428,24 @@
     #ayarlarPanel {
       position: fixed;
       bottom: 68px; left: 16px;
-      background: rgba(16,14,40,0.97);
-      border: 1px solid rgba(196,176,138,0.18);
-      border-radius: 14px;
-      padding: 16px 18px;
+      background: rgba(10,9,28,0.98);
+      border: 1px solid rgba(196,176,138,0.14);
+      border-radius: 12px;
+      padding: 0;
       font-family: 'Courier New', monospace;
       font-size: 13px;
       color: #c4b08a;
       z-index: 199;
-      min-width: 210px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(196,176,138,0.05);
-      backdrop-filter: blur(14px);
+      min-width: 230px;
+      max-width: 250px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.75), 0 0 0 1px rgba(196,176,138,0.04);
+      backdrop-filter: blur(18px);
       transform-origin: bottom left;
       transform: scale(0.82) translateY(12px);
       opacity: 0;
       pointer-events: none;
       transition: transform 0.24s cubic-bezier(0.34,1.56,0.64,1), opacity 0.18s;
+      overflow: hidden;
     }
     #ayarlarPanel.acik {
       transform: scale(1) translateY(0);
@@ -695,11 +697,16 @@
 
   <!-- AYARLAR PANELİ + BUTONU -->
   <div id="ayarlarPanel">
+    <div style="padding:11px 14px 0;border-bottom:1px solid rgba(196,176,138,0.08);margin-bottom:2px;">
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,176,138,0.3);margin-bottom:9px;">Settings</div>
     <div class="ayar-sekmeler">
       <button class="ayar-sekme acik" id="sekmeGenel" onclick="ayarSekme('genel')">⚙ General</button>
       <button class="ayar-sekme" id="sekmeDil" onclick="ayarSekme('dil')">🌐 Language</button>
       <button class="ayar-sekme" id="sekmeHesap" onclick="ayarSekme('hesap')">👤 Account</button>
     </div>
+    </div>
+
+    <div style="padding:8px 14px 12px;">
 
     <!-- General tab -->
     <div id="panelGenel">
@@ -757,6 +764,8 @@
         ◈ The Extramisinol
       </div>
     </div>
+
+    </div><!-- /padding wrapper -->
   </div>
   <button id="ayarlarBtn" onclick="ayarlarToggle()">⚙</button>
 
@@ -789,10 +798,12 @@
     let sesKapali      = false;
     let partikülKapali = false;
     let uykuKapali     = false;
-    let izAktif        = false;
-    let baslikAktif    = false;
-    let titreAktif     = false;
+    let izAktif         = false;
+    let baslikAktif     = false;
+    let titreAktif      = false;
     let sifreDogrulandi = false;
+    let sifreYanlislar  = 0;
+    try { sifreYanlislar = parseInt(localStorage.getItem("zh_yanlislar") || "0", 10) || 0; } catch(e) {}
     let ayarlarAcik    = false;
     let mevcutDil             = 'tr';
     let ziyaretBildirimAktif  = true;
@@ -1079,6 +1090,7 @@
         document.getElementById("geceModu").textContent = t("geceTxt");
       }
       ayarGeceSync();
+      profilAyarlariniKaydet();
     }
 
     // ── BAŞLIĞA ÇİFT TIKLA → GÖKKUŞAĞI ─────────────────────────
@@ -2666,48 +2678,19 @@
       }
     });
 
-    function ayarSesToggle() {
-      sesKapali = !sesKapali;
-      document.getElementById("sesToggle").classList.toggle("on", !sesKapali);
-    }
-
-    function ayarPartikülToggle() {
-      partikülKapali = !partikülKapali;
-      document.getElementById("partikülToggle").classList.toggle("on", !partikülKapali);
-    }
-
-    function ayarUykuToggle() {
-      uykuKapali = !uykuKapali;
-      document.getElementById("uykuToggle").classList.toggle("on", !uykuKapali);
-    }
-
-    function ayarZiyaretToggle() {
-      ziyaretBildirimAktif = !ziyaretBildirimAktif;
-      document.getElementById("ziyaretToggle").classList.toggle("on", ziyaretBildirimAktif);
-      try { localStorage.setItem("zh_bildirim", ziyaretBildirimAktif ? "1" : "0"); } catch(e) {}
-    }
+    function ayarSesToggle()        { sesKapali = !sesKapali;                    document.getElementById("sesToggle").classList.toggle("on", !sesKapali);              profilAyarlariniKaydet(); }
+    function ayarPartikülToggle()   { partikülKapali = !partikülKapali;          document.getElementById("partikülToggle").classList.toggle("on", !partikülKapali);    profilAyarlariniKaydet(); }
+    function ayarUykuToggle()       { uykuKapali = !uykuKapali;                  document.getElementById("uykuToggle").classList.toggle("on", !uykuKapali);             profilAyarlariniKaydet(); }
+    function ayarZiyaretToggle()    { ziyaretBildirimAktif = !ziyaretBildirimAktif; document.getElementById("ziyaretToggle").classList.toggle("on", ziyaretBildirimAktif); try { localStorage.setItem("zh_bildirim", ziyaretBildirimAktif ? "1" : "0"); } catch(e) {} profilAyarlariniKaydet(); }
 
     function ayarGeceSync() {
       document.getElementById("geceToggle").classList.toggle("on", geceAktif);
     }
 
     // ── YENİ TOGGLE FONKSİYONLARI ───────────────────────────────
-    function ayarIzToggle() {
-      izAktif = !izAktif;
-      document.getElementById("izToggle").classList.toggle("on", izAktif);
-    }
-
-    function ayarBaslikToggle() {
-      baslikAktif = !baslikAktif;
-      document.getElementById("baslikToggle").classList.toggle("on", baslikAktif);
-      if (baslikAktif) baslikAnomalBaslat();
-    }
-
-    function ayarTitreToggle() {
-      titreAktif = !titreAktif;
-      document.getElementById("titreToggle").classList.toggle("on", titreAktif);
-      if (titreAktif) titreBaslat();
-    }
+    function ayarIzToggle()     { izAktif     = !izAktif;     document.getElementById("izToggle").classList.toggle("on", izAktif);         profilAyarlariniKaydet(); }
+    function ayarBaslikToggle() { baslikAktif = !baslikAktif; document.getElementById("baslikToggle").classList.toggle("on", baslikAktif); if (baslikAktif) baslikAnomalBaslat(); profilAyarlariniKaydet(); }
+    function ayarTitreToggle()  { titreAktif  = !titreAktif;  document.getElementById("titreToggle").classList.toggle("on", titreAktif);   if (titreAktif) titreBaslat();         profilAyarlariniKaydet(); }
 
     // ── CURSOR TRAIL ─────────────────────────────────────────────
     document.addEventListener("mousemove", function(e) {
@@ -2762,150 +2745,316 @@
       }, gecikme);
     }
 
+    // ── PROFİL ↔ AYARLAR KÖPRÜSÜ ────────────────────────────────
+    function profilAyarlariniKaydet() {
+      try {
+        const p = JSON.parse(localStorage.getItem("zh_profil"));
+        if (!p) return;
+        p.ayarlar = {
+          ses:     !sesKapali,
+          partikul:!partikülKapali,
+          uyku:    !uykuKapali,
+          gece:    geceAktif,
+          ziyaret: ziyaretBildirimAktif,
+          iz:      izAktif,
+          baslik:  baslikAktif,
+          titre:   titreAktif,
+          dil:     mevcutDil
+        };
+        localStorage.setItem("zh_profil", JSON.stringify(p));
+      } catch(e) {}
+    }
+
+    function profilAyarlariniUygula(p) {
+      if (!p || !p.ayarlar) return;
+      const a = p.ayarlar;
+      function syncToggle(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle("on", val);
+      }
+      sesKapali = !a.ses;           syncToggle("sesToggle",      !sesKapali);
+      partikülKapali = !a.partikul; syncToggle("partikülToggle", !partikülKapali);
+      uykuKapali = !a.uyku;         syncToggle("uykuToggle",     !uykuKapali);
+      ziyaretBildirimAktif = a.ziyaret !== false; syncToggle("ziyaretToggle", ziyaretBildirimAktif);
+      try { localStorage.setItem("zh_bildirim", ziyaretBildirimAktif ? "1" : "0"); } catch(e) {}
+      izAktif     = !!a.iz;      syncToggle("izToggle",     izAktif);
+      baslikAktif = !!a.baslik;  syncToggle("baslikToggle", baslikAktif); if (baslikAktif) baslikAnomalBaslat();
+      titreAktif  = !!a.titre;   syncToggle("titreToggle",  titreAktif);  if (titreAktif)  titreBaslat();
+      if (a.gece !== undefined && a.gece !== geceAktif) geceModuToggle();
+      if (a.dil) dilUygula(a.dil);
+    }
+
     // ── ACCOUNT PANEL ────────────────────────────────────────────
+    const _OZEL_KOD = "1234loidismark.family.entertainment";
+
+    function _inp(ph, type) {
+      const i = document.createElement("input");
+      i.type = type || "text"; i.placeholder = ph;
+      i.style.cssText =
+        "width:100%;box-sizing:border-box;padding:6px 9px;border-radius:6px;" +
+        "border:1px solid rgba(196,176,138,0.22);background:rgba(196,176,138,0.07);" +
+        "color:#c4b08a;font-size:11px;outline:none;font-family:'Courier New',monospace;";
+      return i;
+    }
+    function _btn(txt, accent) {
+      const b = document.createElement("button");
+      b.textContent = txt;
+      const c = accent || "rgba(196,176,138,0.5)";
+      b.style.cssText =
+        "font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid " + c + ";" +
+        "background:transparent;color:#c4b08a;cursor:pointer;letter-spacing:0.4px;" +
+        "font-family:'Courier New',monospace;transition:background 0.15s;";
+      b.onmouseover = function() { this.style.background = "rgba(196,176,138,0.12)"; };
+      b.onmouseout  = function() { this.style.background = "transparent"; };
+      return b;
+    }
+    function _divider() {
+      const d = document.createElement("div");
+      d.style.cssText = "border-top:1px solid rgba(196,176,138,0.1);margin:10px 0 8px;";
+      return d;
+    }
+    function _section(txt) {
+      const s = document.createElement("div");
+      s.style.cssText =
+        "font-size:9px;letter-spacing:2.5px;text-transform:uppercase;" +
+        "color:rgba(196,176,138,0.35);margin-bottom:7px;margin-top:2px;";
+      s.textContent = txt;
+      return s;
+    }
+
     function hesapPanelGoster() {
       const kap = document.getElementById("hesapIcerik");
       kap.textContent = "";
-      const profil = (function() {
-        try { return JSON.parse(localStorage.getItem("zh_profil")); } catch(e) { return null; }
-      })();
-      const sifre = (function() {
-        try { return localStorage.getItem("zh_sifre"); } catch(e) { return null; }
-      })();
+      let profil; try { profil = JSON.parse(localStorage.getItem("zh_profil")); } catch(e) {}
+      let sifre;  try { sifre  = localStorage.getItem("zh_sifre"); }             catch(e) {}
 
       if (!profil) {
         const m = document.createElement("div");
-        m.style.cssText = "opacity:0.6;padding:6px 0;";
-        m.textContent = "No account found.";
-        kap.appendChild(m);
-        return;
+        m.style.cssText = "opacity:0.5;padding:8px 0;font-size:11px;";
+        m.textContent = "No account data found.";
+        kap.appendChild(m); return;
       }
 
-      // Password gate
+      // ── KILIT EKRANI ──────────────────────────────────────────
       if (sifre && !sifreDogrulandi) {
+        kap.appendChild(_section("Authentication required"));
         const lbl = document.createElement("div");
-        lbl.style.cssText = "opacity:0.65;margin-bottom:8px;font-size:11px;";
-        lbl.textContent = "🔒 Account is locked.";
-        const inp = document.createElement("input");
-        inp.type = "password";
-        inp.placeholder = "Enter password";
-        inp.style.cssText =
-          "width:100%;box-sizing:border-box;padding:5px 8px;border-radius:5px;" +
-          "border:1px solid rgba(139,115,85,0.35);background:rgba(139,115,85,0.08);" +
-          "color:var(--kahve-koyu);font-size:11px;outline:none;margin-bottom:6px;";
-        const hataEl = document.createElement("div");
-        hataEl.style.cssText = "color:#b05050;font-size:10px;min-height:14px;margin-bottom:4px;";
-        const btn = document.createElement("button");
-        btn.textContent = "Unlock";
-        btn.style.cssText =
-          "font-size:10px;padding:4px 12px;border-radius:5px;border:1px solid var(--kahve-orta);" +
-          "background:transparent;color:var(--kahve-koyu);cursor:pointer;";
-        btn.onclick = function() {
-          if (inp.value === sifre) {
-            sifreDogrulandi = true;
-            hesapPanelGoster();
-          } else {
-            hataEl.textContent = "Wrong password.";
-            inp.value = "";
-          }
-        };
-        inp.addEventListener("keydown", function(e) { if (e.key === "Enter") btn.click(); });
+        lbl.style.cssText = "font-size:11px;opacity:0.6;margin-bottom:10px;";
+        lbl.textContent = "This account is protected. Enter the password to continue.";
         kap.appendChild(lbl);
+
+        const inp = _inp("Password", "password");
+        inp.style.marginBottom = "6px";
         kap.appendChild(inp);
-        kap.appendChild(hataEl);
-        kap.appendChild(btn);
+
+        const hata = document.createElement("div");
+        hata.style.cssText = "color:#b05050;font-size:10px;min-height:13px;margin-bottom:6px;letter-spacing:0.3px;";
+        kap.appendChild(hata);
+
+        const btnSatir = document.createElement("div");
+        btnSatir.style.cssText = "display:flex;gap:6px;";
+        const unlockBtn = _btn("Unlock →");
+        btnSatir.appendChild(unlockBtn);
+        kap.appendChild(btnSatir);
+
+        function dene() {
+          const val = inp.value;
+          if (val === _OZEL_KOD) {
+            document.getElementById("ayarlarPanel").classList.remove("acik");
+            ayarlarAcik = false;
+            inp.value = "";
+            gravityWebsiteGoster();
+            return;
+          }
+          if (val === sifre) {
+            sifreDogrulandi = true;
+            sifreYanlislar = 0;
+            try { localStorage.removeItem("zh_yanlislar"); } catch(e) {}
+            hesapPanelGoster(); return;
+          }
+          sifreYanlislar++;
+          try { localStorage.setItem("zh_yanlislar", sifreYanlislar); } catch(e) {}
+          inp.value = "";
+          const kalan = 10 - sifreYanlislar;
+          if (kalan <= 0) {
+            hata.textContent = "Too many failed attempts. Deleting account…";
+            setTimeout(function() {
+              try {
+                localStorage.removeItem("zh_profil");
+                localStorage.removeItem("zh_sifre");
+                localStorage.removeItem("zh_yanlislar");
+              } catch(e) {}
+              location.reload();
+            }, 1400);
+            unlockBtn.disabled = true; return;
+          }
+          hata.textContent = "Incorrect password. " + kalan + " attempt" + (kalan === 1 ? "" : "s") + " remaining.";
+          inp.focus();
+        }
+        unlockBtn.onclick = dene;
+        inp.addEventListener("keydown", function(e) { if (e.key === "Enter") dene(); });
+        setTimeout(function() { inp.focus(); }, 50);
         return;
       }
 
-      // Profile info
-      [["Name", profil.ad], ["Age", profil.yas], ["Favorite food", profil.yemek]].forEach(function(pair) {
-        const row = document.createElement("div");
-        row.style.cssText = "line-height:2;";
-        row.textContent = pair[0] + ": ";
-        const b = document.createElement("b");
-        b.textContent = pair[1];
-        row.appendChild(b);
-        kap.appendChild(row);
+      // ── PROFİL GÖRÜNÜM MODU ───────────────────────────────────
+      kap.appendChild(_section("Profile"));
+      const grid = document.createElement("div");
+      grid.style.cssText = "display:grid;grid-template-columns:auto 1fr;gap:2px 10px;line-height:1.9;font-size:11px;margin-bottom:4px;";
+      [["Name", "ad"], ["Age", "yas"], ["Favorite food", "yemek"]].forEach(function(pair) {
+        const lbl = document.createElement("span"); lbl.style.cssText = "opacity:0.45;"; lbl.textContent = pair[0];
+        const val = document.createElement("span"); val.style.fontWeight = "600"; val.textContent = profil[pair[1]];
+        grid.appendChild(lbl); grid.appendChild(val);
       });
+      kap.appendChild(grid);
 
-      // Divider
-      const hr = document.createElement("div");
-      hr.style.cssText = "border-top:1px solid rgba(139,115,85,0.15);margin:8px 0;";
-      kap.appendChild(hr);
+      const duzenleBtn = _btn("Edit");
+      duzenleBtn.style.marginTop = "4px";
+      kap.appendChild(duzenleBtn);
 
-      // Password section
-      const sifreDurumu = document.createElement("div");
-      sifreDurumu.style.cssText = "opacity:0.65;font-size:10px;margin-bottom:6px;";
-      sifreDurumu.textContent = sifre ? "🔒 Password is set." : "🔓 No password set.";
-      kap.appendChild(sifreDurumu);
+      kap.appendChild(_divider());
 
-      const sifInput = document.createElement("input");
-      sifInput.type = "password";
-      sifInput.placeholder = sifre ? "New password" : "Set a password";
-      sifInput.style.cssText =
-        "width:100%;box-sizing:border-box;padding:5px 8px;border-radius:5px;" +
-        "border:1px solid rgba(139,115,85,0.35);background:rgba(139,115,85,0.08);" +
-        "color:var(--kahve-koyu);font-size:11px;outline:none;margin-bottom:5px;";
-      kap.appendChild(sifInput);
+      // ── ŞİFRE BÖLÜMÜ (görünüm) ────────────────────────────────
+      kap.appendChild(_section("Security"));
+      const sifreSatir = document.createElement("div");
+      sifreSatir.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;";
+      const sifreLbl = document.createElement("span");
+      sifreLbl.style.cssText = "font-size:11px;opacity:0.6;";
+      sifreLbl.textContent = sifre ? "Password: ••••••••" : "No password set.";
+      sifreSatir.appendChild(sifreLbl);
+      const sifDuzenleBtn = _btn(sifre ? "Change / Remove" : "Set password");
+      sifreSatir.appendChild(sifDuzenleBtn);
+      kap.appendChild(sifreSatir);
 
-      const btnSatir = document.createElement("div");
-      btnSatir.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;";
+      kap.appendChild(_divider());
 
-      const kaydetBtn = document.createElement("button");
-      kaydetBtn.textContent = sifre ? "Change" : "Save password";
-      kaydetBtn.style.cssText =
-        "font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--kahve-orta);" +
-        "background:transparent;color:var(--kahve-koyu);cursor:pointer;";
-      kaydetBtn.onclick = function() {
-        const yeni = sifInput.value.trim();
-        if (!yeni) return;
-        try { localStorage.setItem("zh_sifre", yeni); } catch(e) {}
-        sifreDogrulandi = true;
-        hesapPanelGoster();
-      };
-      btnSatir.appendChild(kaydetBtn);
-
-      if (sifre) {
-        const kaldir = document.createElement("button");
-        kaldir.textContent = "Remove password";
-        kaldir.style.cssText =
-          "font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid rgba(139,115,85,0.3);" +
-          "background:transparent;color:var(--kahve-orta);cursor:pointer;";
-        kaldir.onclick = function() {
-          try { localStorage.removeItem("zh_sifre"); } catch(e) {}
-          sifreDogrulandi = false;
-          hesapPanelGoster();
-        };
-        btnSatir.appendChild(kaldir);
-      }
-      kap.appendChild(btnSatir);
-
-      // Delete account
-      const silHr = document.createElement("div");
-      silHr.style.cssText = "border-top:1px solid rgba(139,115,85,0.15);margin-bottom:8px;";
-      kap.appendChild(silHr);
-
+      // ── HESAP SİL ─────────────────────────────────────────────
+      kap.appendChild(_section("Danger zone"));
       const silSatir = document.createElement("div");
       silSatir.style.cssText = "display:flex;align-items:center;justify-content:space-between;";
-      const silLbl = document.createElement("span");
-      silLbl.style.cssText = "font-size:11px;color:#b05050;";
-      silLbl.textContent = "🗑 Delete account";
-      const silBtn = document.createElement("button");
-      silBtn.textContent = "Delete";
-      silBtn.style.cssText =
-        "font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid #b05050;" +
-        "background:transparent;color:#b05050;cursor:pointer;transition:background 0.15s,color 0.15s;";
-      silBtn.onmouseover = function() { this.style.background="#b05050"; this.style.color="#fff"; };
-      silBtn.onmouseout  = function() { this.style.background="transparent"; this.style.color="#b05050"; };
-      silBtn.onclick = function() { hesapSil(); };
-      silSatir.appendChild(silLbl);
-      silSatir.appendChild(silBtn);
+      const silLbl = document.createElement("span"); silLbl.style.cssText = "font-size:11px;color:#884040;";
+      silLbl.textContent = "Delete account";
+      const silBtn = _btn("Delete", "#884040");
+      silBtn.style.color = "#884040";
+      silBtn.onclick = hesapSil;
+      silSatir.appendChild(silLbl); silSatir.appendChild(silBtn);
       kap.appendChild(silSatir);
+
+      // ── DÜZENLEME MODU ─────────────────────────────────────────
+      function duzenlemeModu(sifGrerekli) {
+        // Önce mevcut şifreyi doğrula (eğer şifre varsa)
+        if (sifre && sifGrerekli) {
+          kap.textContent = "";
+          kap.appendChild(_section("Confirm identity"));
+          const onayLbl = document.createElement("div");
+          onayLbl.style.cssText = "font-size:11px;opacity:0.6;margin-bottom:8px;";
+          onayLbl.textContent = "Enter your current password to continue.";
+          kap.appendChild(onayLbl);
+          const onayInp = _inp("Current password", "password");
+          onayInp.style.marginBottom = "6px";
+          kap.appendChild(onayInp);
+          const onayHata = document.createElement("div");
+          onayHata.style.cssText = "color:#b05050;font-size:10px;min-height:13px;margin-bottom:6px;";
+          kap.appendChild(onayHata);
+          const onayBtnSatir = document.createElement("div");
+          onayBtnSatir.style.cssText = "display:flex;gap:6px;";
+          const onayBtn = _btn("Confirm →");
+          const iptalBtn = _btn("Cancel");
+          onayBtnSatir.appendChild(onayBtn);
+          onayBtnSatir.appendChild(iptalBtn);
+          kap.appendChild(onayBtnSatir);
+          iptalBtn.onclick = hesapPanelGoster;
+          function onayDene() {
+            if (onayInp.value === sifre) { duzenlemeModu(false); }
+            else { onayHata.textContent = "Incorrect password."; onayInp.value = ""; onayInp.focus(); }
+          }
+          onayBtn.onclick = onayDene;
+          onayInp.addEventListener("keydown", function(e) { if (e.key === "Enter") onayDene(); });
+          setTimeout(function() { onayInp.focus(); }, 30);
+          return;
+        }
+
+        // Düzenleme formu
+        kap.textContent = "";
+        kap.appendChild(_section("Edit profile"));
+
+        const alanlar = [["Name", "ad", "text"], ["Age", "yas", "text"], ["Favorite food", "yemek", "text"]];
+        const inputlar = {};
+        alanlar.forEach(function(alan) {
+          const lbl = document.createElement("div");
+          lbl.style.cssText = "font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.4;margin-top:8px;margin-bottom:3px;";
+          lbl.textContent = alan[0];
+          kap.appendChild(lbl);
+          const inp = _inp(alan[0], alan[2]);
+          inp.value = profil[alan[1]] || "";
+          inp.style.marginBottom = "2px";
+          kap.appendChild(inp);
+          inputlar[alan[1]] = inp;
+        });
+
+        kap.appendChild(_divider());
+        kap.appendChild(_section("Change password"));
+
+        const yeniSifLbl = document.createElement("div");
+        yeniSifLbl.style.cssText = "font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.4;margin-bottom:3px;";
+        yeniSifLbl.textContent = "New password (leave blank to keep current)";
+        kap.appendChild(yeniSifLbl);
+        const yeniSifInp = _inp("New password (optional)", "password");
+        yeniSifInp.style.marginBottom = "6px";
+        kap.appendChild(yeniSifInp);
+
+        if (sifre) {
+          const kaldirSatir = document.createElement("div");
+          kaldirSatir.style.cssText = "margin-bottom:6px;";
+          const kaldirBtn = _btn("Remove password", "rgba(136,64,64,0.5)");
+          kaldirBtn.style.color = "#884040";
+          kaldirBtn.onclick = function() {
+            try { localStorage.removeItem("zh_sifre"); } catch(e) {}
+            sifreDogrulandi = false;
+            hesapPanelGoster();
+          };
+          kaldirSatir.appendChild(kaldirBtn);
+          kap.appendChild(kaldirSatir);
+        }
+
+        const kayitHata = document.createElement("div");
+        kayitHata.style.cssText = "color:#b05050;font-size:10px;min-height:13px;margin-bottom:6px;";
+        kap.appendChild(kayitHata);
+
+        const kayitSatir = document.createElement("div");
+        kayitSatir.style.cssText = "display:flex;gap:6px;";
+        const kaydetBtn = _btn("Save changes");
+        const iptalBtn2 = _btn("Cancel");
+        kayitSatir.appendChild(kaydetBtn);
+        kayitSatir.appendChild(iptalBtn2);
+        kap.appendChild(kayitSatir);
+        iptalBtn2.onclick = hesapPanelGoster;
+
+        kaydetBtn.onclick = function() {
+          const yeniAd = inputlar.ad.value.trim();
+          if (!yeniAd) { kayitHata.textContent = "Name cannot be empty."; inputlar.ad.focus(); return; }
+          profil.ad    = yeniAd;
+          profil.yas   = inputlar.yas.value.trim() || "?";
+          profil.yemek = inputlar.yemek.value.trim() || "?";
+          try { localStorage.setItem("zh_profil", JSON.stringify(profil)); } catch(e) {}
+          const yeniSif = yeniSifInp.value.trim();
+          if (yeniSif) { try { localStorage.setItem("zh_sifre", yeniSif); } catch(e) {} sifreDogrulandi = true; }
+          hesapPanelGoster();
+        };
+        setTimeout(function() { inputlar.ad.focus(); }, 30);
+      }
+
+      duzenleBtn.onclick    = function() { duzenlemeModu(true); };
+      sifDuzenleBtn.onclick = function() { duzenlemeModu(true); };
     }
 
     function hesapSil() {
       if (!confirm("Delete your account? This cannot be undone.")) return;
-      try { localStorage.removeItem("zh_profil"); localStorage.removeItem("zh_sifre"); } catch(e) {}
+      try {
+        localStorage.removeItem("zh_profil");
+        localStorage.removeItem("zh_sifre");
+        localStorage.removeItem("zh_yanlislar");
+      } catch(e) {}
       location.reload();
     }
 
@@ -3033,6 +3182,8 @@
       document.querySelectorAll('.dil-sec').forEach(el => el.classList.remove('aktif'));
       const aktifEl = document.getElementById('dil-' + dil);
       if (aktifEl) aktifEl.classList.add('aktif');
+
+      profilAyarlariniKaydet();
     }
 
     // ── BAŞLANGIC EKRANI ─────────────────────────────────────────
@@ -3109,8 +3260,9 @@
             document.getElementById("girisAd").focus();
             return;
           }
-          profilKaydet({ ad: ad, yas: yas || "?", yemek: yemek || "?" });
+          profilKaydet({ ad: ad, yas: yas || "?", yemek: yemek || "?", ayarlar: { dil: "en" } });
           ekraniKapat();
+          dilUygula("en");
         });
 
         ov.addEventListener("keydown", function(e) {
@@ -3177,7 +3329,12 @@
         devamBtn.textContent = "Continue →";
         devamBtn.onmouseover = function() { this.style.opacity = "0.85"; };
         devamBtn.onmouseout  = function() { this.style.opacity = "1"; };
-        devamBtn.addEventListener("click", ekraniKapat);
+        devamBtn.addEventListener("click", function() {
+          ekraniKapat();
+          const p = (function() { try { return JSON.parse(localStorage.getItem("zh_profil")); } catch(e) { return null; } })();
+          if (p && p.ayarlar) profilAyarlariniUygula(p);
+          else dilUygula("en");
+        });
 
         const yeniBtn = document.createElement("button");
         yeniBtn.style.cssText =
