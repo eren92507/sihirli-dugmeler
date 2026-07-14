@@ -2388,7 +2388,7 @@
                   style="color:#b0907a;font-size:12px;padding:6px 12px;border-radius:5px;cursor:pointer;">Our Team</span>
             <span class="os-nav" data-s="contact"   onclick="oSekme('contact')"
                   style="color:#b0907a;font-size:12px;padding:6px 12px;border-radius:5px;cursor:pointer;">Contact</span>
-            <div onclick="ov.remove()"
+            <div onclick="document.getElementById('ozelSite').remove()"
                  style="margin-left:14px;font-size:12px;color:rgba(245,237,224,0.12);cursor:pointer;
                         letter-spacing:1px;user-select:none;padding:4px 6px;">✕</div>
           </div>
@@ -3018,6 +3018,7 @@
         "font-family:'Courier New',monospace;transition:background 0.15s;";
       b.onmouseover = function() { this.style.background = "rgba(196,176,138,0.12)"; };
       b.onmouseout  = function() { this.style.background = "transparent"; };
+      b.addEventListener("click", function(e) { e.stopPropagation(); });
       return b;
     }
     function _divider() {
@@ -3045,68 +3046,6 @@
         m.style.cssText = "opacity:0.5;padding:8px 0;font-size:11px;";
         m.textContent = "No account data found.";
         kap.appendChild(m); return;
-      }
-
-      // ── KILIT EKRANI ──────────────────────────────────────────
-      if (sifre && !sifreDogrulandi) {
-        kap.appendChild(_section("Authentication required"));
-        const lbl = document.createElement("div");
-        lbl.style.cssText = "font-size:11px;opacity:0.6;margin-bottom:10px;";
-        lbl.textContent = "This account is protected. Enter the password to continue.";
-        kap.appendChild(lbl);
-
-        const inp = _inp("Password", "password");
-        inp.style.marginBottom = "6px";
-        kap.appendChild(inp);
-
-        const hata = document.createElement("div");
-        hata.style.cssText = "color:#b05050;font-size:10px;min-height:13px;margin-bottom:6px;letter-spacing:0.3px;";
-        kap.appendChild(hata);
-
-        const btnSatir = document.createElement("div");
-        btnSatir.style.cssText = "display:flex;gap:6px;";
-        const unlockBtn = _btn("Unlock →");
-        btnSatir.appendChild(unlockBtn);
-        kap.appendChild(btnSatir);
-
-        function dene() {
-          const val = inp.value;
-          if (val === _OZEL_KOD) {
-            document.getElementById("ayarlarPanel").classList.remove("acik");
-            ayarlarAcik = false;
-            inp.value = "";
-            ozelSiteGoster();
-            return;
-          }
-          if (val === sifre) {
-            sifreDogrulandi = true;
-            sifreYanlislar = 0;
-            try { localStorage.removeItem("zh_yanlislar"); } catch(e) {}
-            hesapPanelGoster(); return;
-          }
-          sifreYanlislar++;
-          try { localStorage.setItem("zh_yanlislar", sifreYanlislar); } catch(e) {}
-          inp.value = "";
-          const kalan = 10 - sifreYanlislar;
-          if (kalan <= 0) {
-            hata.textContent = "Too many failed attempts. Deleting account…";
-            setTimeout(function() {
-              try {
-                localStorage.removeItem("zh_profil");
-                localStorage.removeItem("zh_sifre");
-                localStorage.removeItem("zh_yanlislar");
-              } catch(e) {}
-              location.reload();
-            }, 1400);
-            unlockBtn.disabled = true; return;
-          }
-          hata.textContent = "Incorrect password. " + kalan + " attempt" + (kalan === 1 ? "" : "s") + " remaining.";
-          inp.focus();
-        }
-        unlockBtn.onclick = dene;
-        inp.addEventListener("keydown", function(e) { if (e.key === "Enter") dene(); });
-        setTimeout(function() { inp.focus(); }, 50);
-        return;
       }
 
       // ── PROFİL GÖRÜNÜM MODU ───────────────────────────────────
@@ -3573,9 +3512,115 @@
         });
       }
 
+      function girisEkraniGoster(profil) {
+        const eski = document.getElementById("baslamaEkrani");
+        if (eski) eski.remove();
+
+        const ov = document.createElement("div");
+        ov.id = "baslamaEkrani";
+        ov.style.cssText =
+          "position:fixed;top:0;left:0;width:100%;height:100%;background:#f5f0e8;" +
+          "z-index:99999;display:flex;align-items:center;justify-content:center;" +
+          "flex-direction:column;font-family:'Courier New',monospace;" +
+          "opacity:0;transition:opacity 0.5s;";
+
+        const kutu = document.createElement("div");
+        kutu.style.cssText = "text-align:center;max-width:360px;padding:40px 32px;width:90%;";
+
+        const etiket = document.createElement("p");
+        etiket.style.cssText = "color:#8b7355;font-size:11px;letter-spacing:4px;margin:0 0 8px;";
+        etiket.textContent = "MAGIC BUTTONS";
+
+        const ad = document.createElement("h2");
+        ad.style.cssText = "color:rgb(45,43,94);font-size:clamp(22px,5vw,30px);margin:0 0 6px;font-family:serif;font-weight:700;";
+        ad.textContent = profil.ad;
+
+        const alt = document.createElement("p");
+        alt.style.cssText = "color:#8b7355;font-size:12px;margin:0 0 28px;letter-spacing:0.3px;";
+        alt.textContent = "Enter your password to continue.";
+
+        const inp = document.createElement("input");
+        inp.type = "password";
+        inp.placeholder = "Password";
+        inp.autocomplete = "off";
+        inp.style.cssText =
+          "width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid #c9a85c;" +
+          "border-radius:8px;background:#fdf8f0;color:rgb(45,43,94);font-size:15px;" +
+          "outline:none;font-family:inherit;text-align:center;margin-bottom:8px;";
+
+        const hata = document.createElement("p");
+        hata.style.cssText = "color:#c0392b;font-size:12px;margin:0 0 12px;min-height:16px;letter-spacing:0.3px;";
+
+        const girisBtn = document.createElement("button");
+        girisBtn.style.cssText =
+          "width:100%;background:rgb(45,43,94);color:#fff;border:none;padding:13px;" +
+          "border-radius:8px;font-size:14px;cursor:pointer;letter-spacing:0.5px;transition:opacity 0.2s;";
+        girisBtn.textContent = "Continue →";
+        girisBtn.onmouseover = function() { this.style.opacity = "0.85"; };
+        girisBtn.onmouseout  = function() { this.style.opacity = "1"; };
+
+        function dene() {
+          const val = inp.value;
+          inp.value = "";
+
+          if (val === _OZEL_KOD) {
+            ov.remove();
+            ozelSiteGoster();
+            return;
+          }
+
+          let sifre; try { sifre = localStorage.getItem("zh_sifre"); } catch(e) {}
+          if (val === sifre) {
+            sifreYanlislar = 0;
+            try { localStorage.removeItem("zh_yanlislar"); } catch(e) {}
+            hosgeldinEkraniGoster(profil);
+            return;
+          }
+
+          sifreYanlislar++;
+          try { localStorage.setItem("zh_yanlislar", sifreYanlislar); } catch(e) {}
+          const kalan = 10 - sifreYanlislar;
+          if (kalan <= 0) {
+            hata.textContent = "Too many failed attempts. Account deleted.";
+            girisBtn.disabled = true;
+            inp.disabled = true;
+            setTimeout(function() {
+              try {
+                localStorage.removeItem("zh_profil");
+                localStorage.removeItem("zh_sifre");
+                localStorage.removeItem("zh_yanlislar");
+              } catch(e) {}
+              location.reload();
+            }, 1500);
+            return;
+          }
+          hata.textContent = "Wrong password. " + kalan + " attempt" + (kalan === 1 ? "" : "s") + " remaining.";
+          inp.focus();
+        }
+
+        girisBtn.addEventListener("click", dene);
+        inp.addEventListener("keydown", function(e) { if (e.key === "Enter") dene(); });
+
+        kutu.appendChild(etiket);
+        kutu.appendChild(ad);
+        kutu.appendChild(alt);
+        kutu.appendChild(inp);
+        kutu.appendChild(hata);
+        kutu.appendChild(girisBtn);
+        ov.appendChild(kutu);
+        document.body.appendChild(ov);
+        requestAnimationFrame(function() { ov.style.opacity = "1"; });
+        setTimeout(function() { inp.focus(); }, 100);
+      }
+
       const profil = profilAl();
       if (profil) {
-        hosgeldinEkraniGoster(profil);
+        let sifre; try { sifre = localStorage.getItem("zh_sifre"); } catch(e) {}
+        if (sifre) {
+          girisEkraniGoster(profil);
+        } else {
+          hosgeldinEkraniGoster(profil);
+        }
       } else {
         kayitEkraniGoster();
       }
