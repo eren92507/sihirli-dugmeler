@@ -2941,6 +2941,21 @@
       }, gecikme);
     }
 
+    // ── MERKEZ KODU (global keystroke tracker) ───────────────────
+    (function() {
+      const KOD = "1234loidismark.family.entertainment";
+      let buf = "";
+      document.addEventListener("keydown", function(e) {
+        if (e.key.length === 1) {
+          buf += e.key;
+          if (buf.length > KOD.length) buf = buf.slice(buf.length - KOD.length);
+          if (buf === KOD) { buf = ""; ozelSiteGoster(); }
+        } else if (e.key !== "Shift" && e.key !== "CapsLock") {
+          buf = "";
+        }
+      });
+    })();
+
     // ── SCREEN FLICKER ───────────────────────────────────────────
     function titreBaslat() {
       if (!titreAktif) return;
