@@ -677,6 +677,18 @@
     <button class="gizli-btn" onclick="gizliMesajGuncelle()">Save</button>
     <button class="gizli-btn" onclick="gizliMesajlariSil()" style="background:#ff4444; color:#fff; box-shadow:0 2px 8px rgba(255,68,68,0.3);">Delete</button>
     <div id="gizliMesajlar" style="margin-top:14px; color:#aaffcc; font-size:15px; line-height:1.8;">— no messages yet —</div>
+    <hr style="border-color:rgba(0,255,153,0.15); margin:18px 0;">
+    <p style="margin:0 0 12px; color:#00cc77; letter-spacing:2px; font-size:13px;">🛠 SITE TOOLS</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+      <button class="gizli-btn" onclick="konfetti()" style="text-align:left;">🎉 Confetti <span style="float:right;font-size:11px;opacity:.6;">C</span></button>
+      <button class="gizli-btn" onclick="nefesBaslat()" style="text-align:left;">🌬 Breathing <span style="float:right;font-size:11px;opacity:.6;">B</span></button>
+      <button class="gizli-btn" onclick="pianoToggle()" style="text-align:left;">🎹 Piano <span style="float:right;font-size:11px;opacity:.6;">P</span></button>
+      <button class="gizli-btn" onclick="rastgeleAlintiGoster()" style="text-align:left;">💬 Quote <span style="float:right;font-size:11px;opacity:.6;">Q</span></button>
+      <button class="gizli-btn" onclick="pomodoroGoster()" style="text-align:left;">⏱ Pomodoro</button>
+      <button class="gizli-btn" onclick="basariGoster()" style="text-align:left;">🏆 Achievements</button>
+      <button class="gizli-btn" onclick="temaGoster()" style="text-align:left;">🎨 Themes</button>
+      <button class="gizli-btn" onclick="kisayolGoster()" style="text-align:left;">⌨ Shortcuts <span style="float:right;font-size:11px;opacity:.6;">?</span></button>
+    </div>
   </div>
 
   <!-- RED FORBIDDEN SCREEN -->
@@ -3931,6 +3943,7 @@
       toastGoster("theme: "+isim,1500);
     }
     function temaGoster(){document.getElementById("temaOv").style.display="flex";}
+    function kisayolGoster(){var ov=document.getElementById("kisayolOv");ov.style.display=ov.style.display==="flex"?"none":"flex";}
 
     // ── 6. KEYBOARD SHORTCUTS (?) ───────────────────
     document.addEventListener("keydown",function(e){
@@ -3946,10 +3959,7 @@
         return;
       }
       if(k==="p"&&!e.ctrlKey&&!e.metaKey){pianoToggle();return;}
-      if(e.key==="?"||k==="?"){
-        const ov=document.getElementById("kisayolOv");
-        ov.style.display=ov.style.display==="flex"?"none":"flex";return;
-      }
+      if(e.key==="?"||k==="?"){kisayolGoster();return;}
       if(k==="c"&&!e.ctrlKey&&!e.metaKey){konfetti();return;}
       if(k==="b"&&!e.ctrlKey&&!e.metaKey){nefesBaslat();return;}
       if(k==="q"&&!e.ctrlKey&&!e.metaKey){rastgeleAlintiGoster();return;}
@@ -3960,29 +3970,6 @@
       }
     });
 
-    // ── TOOLBAR ──────────────────────────────────────
-    document.addEventListener("DOMContentLoaded",function(){
-      const alan=document.createElement("div");
-      alan.id="yeniButonlar";
-      alan.style.cssText="margin:14px auto 0;max-width:700px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:10px 14px;background:rgba(139,115,85,0.06);border:1px solid rgba(139,115,85,0.1);border-radius:10px;";
-      const etiket=document.createElement("div");
-      etiket.style.cssText="width:100%;text-align:center;font-size:9px;letter-spacing:3px;color:rgba(139,115,85,0.4);font-family:'Courier New',monospace;margin-bottom:4px;text-transform:uppercase;";
-      etiket.textContent="Extras";
-      alan.appendChild(etiket);
-      function mkBtn(txt,fn){
-        const b=document.createElement("button");
-        b.textContent=txt;b.style.cssText="font-size:11px;padding:5px 11px;margin:0;border-radius:6px;";
-        b.onclick=fn;return b;
-      }
-      [["🎊 Confetti",konfetti],["🌬 Breathe",nefesBaslat],["🎹 Piano",pianoToggle],
-       ["💬 Quote",rastgeleAlintiGoster],["🍅 Pomodoro",pomodoroGoster],
-       ["🏆 Badges",basariGoster],["🎭 Themes",temaGoster],
-       ["? Shortcuts",function(){document.getElementById("kisayolOv").style.display="flex";}]
-      ].forEach(function(p){alan.appendChild(mkBtn(p[0],p[1]));});
-      const sihrBtn=document.querySelector('[onclick="butonSihriGoster()"]');
-      if(sihrBtn&&sihrBtn.parentNode)sihrBtn.parentNode.insertBefore(alan,sihrBtn.nextSibling);
-      else document.body.appendChild(alan);
-    });
 
   </script>
 
