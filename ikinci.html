@@ -726,20 +726,23 @@
         <span class="ayar-etiket">👋 Visit notification</span>
         <button class="ayar-toggle on" id="ziyaretToggle" onclick="ayarZiyaretToggle()"></button>
       </div>
+      <div class="ayar-satir">
+        <span class="ayar-etiket">✦ Cursor trail</span>
+        <button class="ayar-toggle" id="izToggle" onclick="ayarIzToggle()"></button>
+      </div>
+      <div class="ayar-satir">
+        <span class="ayar-etiket">👁 Title oddities</span>
+        <button class="ayar-toggle" id="baslikToggle" onclick="ayarBaslikToggle()"></button>
+      </div>
+      <div class="ayar-satir">
+        <span class="ayar-etiket">⚡ Screen flicker</span>
+        <button class="ayar-toggle" id="titreToggle" onclick="ayarTitreToggle()"></button>
+      </div>
     </div>
 
     <!-- Account tab -->
     <div id="panelHesap" style="display:none;">
-      <div id="hesapBilgi" style="font-size:11px;line-height:2;padding:4px 0 8px;opacity:0.85;"></div>
-      <div class="ayar-satir" style="margin-top:4px;padding-top:8px;border-top:1px solid rgba(139,115,85,0.15);">
-        <span class="ayar-etiket" style="color:#b05050;">🗑 Delete account</span>
-        <button onclick="hesapSil()"
-                style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid #b05050;
-                       background:transparent;color:#b05050;cursor:pointer;letter-spacing:0.5px;
-                       transition:background 0.15s,color 0.15s;"
-                onmouseover="this.style.background='#b05050';this.style.color='#fff'"
-                onmouseout="this.style.background='transparent';this.style.color='#b05050'">Delete</button>
-      </div>
+      <div id="hesapIcerik" style="font-size:11px;"></div>
     </div>
 
     <!-- Language tab -->
@@ -786,6 +789,10 @@
     let sesKapali      = false;
     let partikülKapali = false;
     let uykuKapali     = false;
+    let izAktif        = false;
+    let baslikAktif    = false;
+    let titreAktif     = false;
+    let sifreDogrulandi = false;
     let ayarlarAcik    = false;
     let mevcutDil             = 'tr';
     let ziyaretBildirimAktif  = true;
@@ -2639,25 +2646,7 @@
       document.getElementById("sekmeGenel").classList.toggle('acik', sekme === 'genel');
       document.getElementById("sekmeDil").classList.toggle('acik', sekme === 'dil');
       document.getElementById("sekmeHesap").classList.toggle('acik', sekme === 'hesap');
-      if (sekme === 'hesap') {
-        const el = document.getElementById("hesapBilgi");
-        el.textContent = "";
-        try {
-          const p = JSON.parse(localStorage.getItem("zh_profil"));
-          if (p) {
-            [["Name", p.ad], ["Age", p.yas], ["Favorite food", p.yemek]].forEach(function(pair) {
-              const row = document.createElement("div");
-              row.textContent = pair[0] + ": ";
-              const b = document.createElement("b");
-              b.textContent = pair[1];
-              row.appendChild(b);
-              el.appendChild(row);
-            });
-          } else {
-            el.textContent = "No account found.";
-          }
-        } catch(e) { el.textContent = "No account found."; }
-      }
+      if (sekme === 'hesap') hesapPanelGoster();
     }
 
     function ayarlarToggle() {
@@ -2702,9 +2691,221 @@
       document.getElementById("geceToggle").classList.toggle("on", geceAktif);
     }
 
+    // ── YENİ TOGGLE FONKSİYONLARI ───────────────────────────────
+    function ayarIzToggle() {
+      izAktif = !izAktif;
+      document.getElementById("izToggle").classList.toggle("on", izAktif);
+    }
+
+    function ayarBaslikToggle() {
+      baslikAktif = !baslikAktif;
+      document.getElementById("baslikToggle").classList.toggle("on", baslikAktif);
+      if (baslikAktif) baslikAnomalBaslat();
+    }
+
+    function ayarTitreToggle() {
+      titreAktif = !titreAktif;
+      document.getElementById("titreToggle").classList.toggle("on", titreAktif);
+      if (titreAktif) titreBaslat();
+    }
+
+    // ── CURSOR TRAIL ─────────────────────────────────────────────
+    document.addEventListener("mousemove", function(e) {
+      if (!izAktif) return;
+      const dot = document.createElement("div");
+      dot.style.cssText =
+        "position:fixed;left:" + e.clientX + "px;top:" + e.clientY + "px;" +
+        "width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:999999;" +
+        "background:var(--kahve-acik);opacity:0.55;transform:translate(-50%,-50%);" +
+        "transition:opacity 0.55s,transform 0.55s;";
+      document.body.appendChild(dot);
+      requestAnimationFrame(function() {
+        dot.style.opacity = "0";
+        dot.style.transform = "translate(-50%,-50%) scale(0.1)";
+      });
+      setTimeout(function() { if (dot.parentNode) dot.remove(); }, 600);
+    });
+
+    // ── TITLE ODDITIES ───────────────────────────────────────────
+    const titreOrijinal = document.title;
+    const titreEerie = [
+      "are you still there?", "we see you", "don't close this tab",
+      "...", "come back", "you left something behind",
+      "we remember", "it is watching", "hello again"
+    ];
+    function baslikAnomalBaslat() {
+      if (!baslikAktif) return;
+      const gecikme = 9000 + Math.random() * 14000;
+      setTimeout(function() {
+        if (!baslikAktif) return;
+        document.title = titreEerie[Math.floor(Math.random() * titreEerie.length)];
+        setTimeout(function() { document.title = titreOrijinal; }, 2800);
+        baslikAnomalBaslat();
+      }, gecikme);
+    }
+
+    // ── SCREEN FLICKER ───────────────────────────────────────────
+    function titreBaslat() {
+      if (!titreAktif) return;
+      const gecikme = 18000 + Math.random() * 35000;
+      setTimeout(function() {
+        if (!titreAktif) return;
+        const ov = document.createElement("div");
+        ov.style.cssText =
+          "position:fixed;top:0;left:0;width:100%;height:100%;z-index:999998;" +
+          "pointer-events:none;background:rgba(255,255,255,0.06);";
+        document.body.appendChild(ov);
+        setTimeout(function() { ov.style.background = "rgba(0,0,0,0.12)"; }, 60);
+        setTimeout(function() { ov.style.background = "rgba(255,255,255,0.03)"; }, 110);
+        setTimeout(function() { if (ov.parentNode) ov.remove(); }, 180);
+        titreBaslat();
+      }, gecikme);
+    }
+
+    // ── ACCOUNT PANEL ────────────────────────────────────────────
+    function hesapPanelGoster() {
+      const kap = document.getElementById("hesapIcerik");
+      kap.textContent = "";
+      const profil = (function() {
+        try { return JSON.parse(localStorage.getItem("zh_profil")); } catch(e) { return null; }
+      })();
+      const sifre = (function() {
+        try { return localStorage.getItem("zh_sifre"); } catch(e) { return null; }
+      })();
+
+      if (!profil) {
+        const m = document.createElement("div");
+        m.style.cssText = "opacity:0.6;padding:6px 0;";
+        m.textContent = "No account found.";
+        kap.appendChild(m);
+        return;
+      }
+
+      // Password gate
+      if (sifre && !sifreDogrulandi) {
+        const lbl = document.createElement("div");
+        lbl.style.cssText = "opacity:0.65;margin-bottom:8px;font-size:11px;";
+        lbl.textContent = "🔒 Account is locked.";
+        const inp = document.createElement("input");
+        inp.type = "password";
+        inp.placeholder = "Enter password";
+        inp.style.cssText =
+          "width:100%;box-sizing:border-box;padding:5px 8px;border-radius:5px;" +
+          "border:1px solid rgba(139,115,85,0.35);background:rgba(139,115,85,0.08);" +
+          "color:var(--kahve-koyu);font-size:11px;outline:none;margin-bottom:6px;";
+        const hataEl = document.createElement("div");
+        hataEl.style.cssText = "color:#b05050;font-size:10px;min-height:14px;margin-bottom:4px;";
+        const btn = document.createElement("button");
+        btn.textContent = "Unlock";
+        btn.style.cssText =
+          "font-size:10px;padding:4px 12px;border-radius:5px;border:1px solid var(--kahve-orta);" +
+          "background:transparent;color:var(--kahve-koyu);cursor:pointer;";
+        btn.onclick = function() {
+          if (inp.value === sifre) {
+            sifreDogrulandi = true;
+            hesapPanelGoster();
+          } else {
+            hataEl.textContent = "Wrong password.";
+            inp.value = "";
+          }
+        };
+        inp.addEventListener("keydown", function(e) { if (e.key === "Enter") btn.click(); });
+        kap.appendChild(lbl);
+        kap.appendChild(inp);
+        kap.appendChild(hataEl);
+        kap.appendChild(btn);
+        return;
+      }
+
+      // Profile info
+      [["Name", profil.ad], ["Age", profil.yas], ["Favorite food", profil.yemek]].forEach(function(pair) {
+        const row = document.createElement("div");
+        row.style.cssText = "line-height:2;";
+        row.textContent = pair[0] + ": ";
+        const b = document.createElement("b");
+        b.textContent = pair[1];
+        row.appendChild(b);
+        kap.appendChild(row);
+      });
+
+      // Divider
+      const hr = document.createElement("div");
+      hr.style.cssText = "border-top:1px solid rgba(139,115,85,0.15);margin:8px 0;";
+      kap.appendChild(hr);
+
+      // Password section
+      const sifreDurumu = document.createElement("div");
+      sifreDurumu.style.cssText = "opacity:0.65;font-size:10px;margin-bottom:6px;";
+      sifreDurumu.textContent = sifre ? "🔒 Password is set." : "🔓 No password set.";
+      kap.appendChild(sifreDurumu);
+
+      const sifInput = document.createElement("input");
+      sifInput.type = "password";
+      sifInput.placeholder = sifre ? "New password" : "Set a password";
+      sifInput.style.cssText =
+        "width:100%;box-sizing:border-box;padding:5px 8px;border-radius:5px;" +
+        "border:1px solid rgba(139,115,85,0.35);background:rgba(139,115,85,0.08);" +
+        "color:var(--kahve-koyu);font-size:11px;outline:none;margin-bottom:5px;";
+      kap.appendChild(sifInput);
+
+      const btnSatir = document.createElement("div");
+      btnSatir.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;";
+
+      const kaydetBtn = document.createElement("button");
+      kaydetBtn.textContent = sifre ? "Change" : "Save password";
+      kaydetBtn.style.cssText =
+        "font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--kahve-orta);" +
+        "background:transparent;color:var(--kahve-koyu);cursor:pointer;";
+      kaydetBtn.onclick = function() {
+        const yeni = sifInput.value.trim();
+        if (!yeni) return;
+        try { localStorage.setItem("zh_sifre", yeni); } catch(e) {}
+        sifreDogrulandi = true;
+        hesapPanelGoster();
+      };
+      btnSatir.appendChild(kaydetBtn);
+
+      if (sifre) {
+        const kaldir = document.createElement("button");
+        kaldir.textContent = "Remove password";
+        kaldir.style.cssText =
+          "font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid rgba(139,115,85,0.3);" +
+          "background:transparent;color:var(--kahve-orta);cursor:pointer;";
+        kaldir.onclick = function() {
+          try { localStorage.removeItem("zh_sifre"); } catch(e) {}
+          sifreDogrulandi = false;
+          hesapPanelGoster();
+        };
+        btnSatir.appendChild(kaldir);
+      }
+      kap.appendChild(btnSatir);
+
+      // Delete account
+      const silHr = document.createElement("div");
+      silHr.style.cssText = "border-top:1px solid rgba(139,115,85,0.15);margin-bottom:8px;";
+      kap.appendChild(silHr);
+
+      const silSatir = document.createElement("div");
+      silSatir.style.cssText = "display:flex;align-items:center;justify-content:space-between;";
+      const silLbl = document.createElement("span");
+      silLbl.style.cssText = "font-size:11px;color:#b05050;";
+      silLbl.textContent = "🗑 Delete account";
+      const silBtn = document.createElement("button");
+      silBtn.textContent = "Delete";
+      silBtn.style.cssText =
+        "font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid #b05050;" +
+        "background:transparent;color:#b05050;cursor:pointer;transition:background 0.15s,color 0.15s;";
+      silBtn.onmouseover = function() { this.style.background="#b05050"; this.style.color="#fff"; };
+      silBtn.onmouseout  = function() { this.style.background="transparent"; this.style.color="#b05050"; };
+      silBtn.onclick = function() { hesapSil(); };
+      silSatir.appendChild(silLbl);
+      silSatir.appendChild(silBtn);
+      kap.appendChild(silSatir);
+    }
+
     function hesapSil() {
       if (!confirm("Delete your account? This cannot be undone.")) return;
-      try { localStorage.removeItem("zh_profil"); } catch(e) {}
+      try { localStorage.removeItem("zh_profil"); localStorage.removeItem("zh_sifre"); } catch(e) {}
       location.reload();
     }
 
