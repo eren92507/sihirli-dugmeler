@@ -745,6 +745,21 @@
         <span class="ayar-etiket">⚡ Screen flicker</span>
         <button class="ayar-toggle" id="titreToggle" onclick="ayarTitreToggle()"></button>
       </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(196,176,138,0.08);">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(196,176,138,0.3);margin-bottom:6px;">Merkez Kodu</div>
+        <div style="display:flex;gap:6px;">
+          <input id="merkezKoduInp" type="text" placeholder="···"
+                 autocomplete="off" spellcheck="false"
+                 style="flex:1;padding:5px 8px;border-radius:5px;border:1px solid rgba(196,176,138,0.18);
+                        background:rgba(196,176,138,0.06);color:#c4b08a;font-size:11px;outline:none;
+                        font-family:'Courier New',monospace;"
+                 onclick="event.stopPropagation()">
+          <button onclick="merkezKoduDene();event.stopPropagation()"
+                  style="font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid rgba(196,176,138,0.25);
+                         background:transparent;color:#c4b08a;cursor:pointer;font-family:'Courier New',monospace;">→</button>
+        </div>
+        <div id="merkezHata" style="font-size:9px;color:#884040;min-height:13px;margin-top:4px;"></div>
+      </div>
     </div>
 
     <!-- Account tab -->
@@ -1346,11 +1361,6 @@
       if (mesaj.trim().toLowerCase() === "come.home" && yasakModAktif) {
         document.getElementById("anonsGir").value = "";
         nostaljiGoster();
-        return;
-      }
-      if (mesaj.trim() === "1234loidismark.family.entertainment") {
-        document.getElementById("anonsGir").value = "";
-        ozelSiteGoster();
         return;
       }
       document.getElementById("anonsYazi").textContent = mesaj;
@@ -2941,20 +2951,28 @@
       }, gecikme);
     }
 
-    // ── MERKEZ KODU (global keystroke tracker) ───────────────────
-    (function() {
-      const KOD = "1234loidismark.family.entertainment";
-      let buf = "";
-      document.addEventListener("keydown", function(e) {
-        if (e.key.length === 1) {
-          buf += e.key;
-          if (buf.length > KOD.length) buf = buf.slice(buf.length - KOD.length);
-          if (buf === KOD) { buf = ""; ozelSiteGoster(); }
-        } else if (e.key !== "Shift" && e.key !== "CapsLock") {
-          buf = "";
-        }
+    // ── MERKEZ KODU ──────────────────────────────────────────────
+    function merkezKoduDene() {
+      const inp = document.getElementById("merkezKoduInp");
+      const hata = document.getElementById("merkezHata");
+      if (inp.value === "1234loidismark.family.entertainment") {
+        inp.value = "";
+        hata.textContent = "";
+        document.getElementById("ayarlarPanel").classList.remove("acik");
+        ayarlarAcik = false;
+        ozelSiteGoster();
+      } else {
+        hata.textContent = "Invalid code.";
+        inp.value = "";
+        setTimeout(function() { hata.textContent = ""; }, 2000);
+      }
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      const inp = document.getElementById("merkezKoduInp");
+      if (inp) inp.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") { e.stopPropagation(); merkezKoduDene(); }
       });
-    })();
+    });
 
     // ── SCREEN FLICKER ───────────────────────────────────────────
     function titreBaslat() {
