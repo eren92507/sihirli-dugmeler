@@ -552,6 +552,67 @@
     }
     .saatCaniCaliyor { animation:saatCani 0.9s ease-in-out 3; }
 
+    /* ═══════════════════════════════════════════════════
+       13 SEÇİLMİŞ ÖZELLİK — CSS
+    ═══════════════════════════════════════════════════ */
+
+    /* 1 — Confetti canvas */
+    #konfettiCvs{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9989;display:none;}
+
+    /* 3 — Breathing overlay */
+    #nefesOv{position:fixed;inset:0;background:rgba(5,5,15,0.93);z-index:9550;display:none;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;}
+    #nefesCircle{width:110px;height:110px;border-radius:50%;border:2px solid rgba(196,176,138,0.35);display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:1px;color:rgba(196,176,138,0.65);transition:transform 4s ease-in-out,border-color 4s ease;}
+    #nefesDurum{color:rgba(196,176,138,0.5);font-size:10px;letter-spacing:3px;margin-top:22px;font-family:'Courier New',monospace;}
+
+    /* 4 — Piano indicator */
+    #pianoInd{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:rgba(12,10,24,0.9);border:1px solid rgba(196,176,138,0.18);border-radius:20px;padding:4px 14px;font-size:9px;color:rgba(196,176,138,0.65);letter-spacing:2px;font-family:'Courier New',monospace;z-index:5100;display:none;}
+
+    /* 5 — Quote overlay */
+    #alintıOv{position:fixed;inset:0;background:rgba(5,5,15,0.9);z-index:9450;display:none;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);}
+    #alintıKutu{max-width:480px;padding:40px;text-align:center;}
+    #alintıMetin{font-size:20px;font-family:Georgia,serif;color:#e8dfc8;line-height:1.65;margin-bottom:14px;}
+    #alintıYazar{font-size:11px;letter-spacing:2px;color:rgba(196,176,138,0.45);font-family:'Courier New',monospace;}
+
+    /* 6 — Floating panel (Pomodoro) */
+    .yp{position:fixed;background:rgba(12,10,24,0.97);border:1px solid rgba(196,176,138,0.14);border-radius:12px;padding:14px 16px;color:#c4b08a;font-size:11px;z-index:6200;box-shadow:0 8px 32px rgba(0,0,0,0.55);font-family:'Courier New',monospace;backdrop-filter:blur(8px);display:none;}
+    .yp h3{margin:0 0 10px;font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:0.4;font-weight:normal;}
+    .yp-ekran{font-size:30px;letter-spacing:3px;text-align:center;margin:6px 0;color:#e8dfc8;}
+    .yp-btn{font-size:10px;padding:5px 11px;margin:2px;border-radius:6px;border:1px solid rgba(196,176,138,0.22);background:rgba(196,176,138,0.05);color:#c4b08a;cursor:pointer;}
+    .yp-btn:hover{background:rgba(196,176,138,0.14);}
+    .yp-kapat{position:absolute;top:8px;right:10px;background:none;border:none;color:rgba(196,176,138,0.3);font-size:14px;cursor:pointer;padding:0;margin:0;line-height:1;}
+    .yp-kapat:hover{color:rgba(196,176,138,0.7);}
+    #pomodoroPanel2{bottom:80px;left:18px;}
+
+    /* 7 — Achievements */
+    #basariOv{position:fixed;inset:0;background:rgba(5,5,15,0.88);z-index:9100;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);cursor:pointer;}
+    #basariKutu{background:rgba(12,10,24,0.97);border:1px solid rgba(196,176,138,0.14);border-radius:14px;padding:20px 24px;min-width:280px;max-height:75vh;overflow-y:auto;cursor:default;}
+    #basariKutu h3{margin:0 0 14px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,176,138,0.4);font-family:'Courier New',monospace;font-weight:normal;}
+    .bsr-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(196,176,138,0.06);}
+    .bsr-item:last-child{border:none;}
+    .bsr-emoji{font-size:22px;min-width:28px;}
+    .bsr-bilgi{font-size:9px;color:rgba(196,176,138,0.5);line-height:1.4;}
+    .bsr-bilgi strong{display:block;font-size:10px;color:#c4b08a;}
+    .bsr-item.kilitli{opacity:0.28;}
+    #basariTost{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(184,134,11,0.92);color:#fff8e7;padding:7px 18px;border-radius:20px;font-size:11px;font-family:'Courier New',monospace;z-index:9995;opacity:0;transition:opacity 0.35s;pointer-events:none;letter-spacing:1px;}
+
+    /* 8 — Theme presets */
+    #temaOv{position:fixed;inset:0;background:rgba(5,5,15,0.88);z-index:8700;display:none;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);}
+    #temaKutu{background:rgba(12,10,24,0.97);border:1px solid rgba(196,176,138,0.14);border-radius:14px;padding:20px 24px;min-width:280px;cursor:default;}
+    #temaKutu h3{margin:0 0 12px;font-size:10px;letter-spacing:3px;color:rgba(196,176,138,0.4);font-family:'Courier New',monospace;font-weight:normal;}
+    .tema-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+    .tema-secim{padding:9px;border-radius:8px;border:1px solid rgba(196,176,138,0.12);cursor:pointer;font-size:9px;letter-spacing:1px;text-align:center;background:rgba(196,176,138,0.04);color:#c4b08a;transition:background 0.2s;font-family:'Courier New',monospace;}
+    .tema-secim:hover{background:rgba(196,176,138,0.1);}
+    .tema-on{display:block;height:10px;border-radius:3px;margin-bottom:5px;}
+
+    /* 10 — Keyboard shortcuts */
+    #kisayolOv{position:fixed;inset:0;background:rgba(5,5,15,0.88);z-index:9200;display:none;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);}
+    #kisayolKutu{background:rgba(12,10,24,0.97);border:1px solid rgba(196,176,138,0.14);border-radius:14px;padding:24px 28px;min-width:280px;cursor:default;}
+    #kisayolKutu h3{margin:0 0 14px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,176,138,0.4);font-family:'Courier New',monospace;font-weight:normal;}
+    .ks-satir{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(196,176,138,0.05);font-size:10px;color:#c4b08a;font-family:'Courier New',monospace;}
+    .ks-satir:last-child{border:none;}
+    .kbd{background:rgba(196,176,138,0.1);border:1px solid rgba(196,176,138,0.18);border-radius:3px;padding:1px 6px;font-size:9px;}
+
+
   </style>
 </head>
 
@@ -594,6 +655,7 @@
     onfocus="this.style.boxShadow='0 0 0 3px rgba(45,43,94,0.1)'"
     onblur="this.style.boxShadow=''">
   <button onclick="yaziyiYazdir()" data-i18n="yazdirBtn">Yazdır</button>
+  <div id="yazıSayac">0 words · 0 chars</div>
 
   <p id="cikti" style="font-size:100px; font-weight:bold; margin-top:20px; color:rgb(196,0,0); font-family:Georgia,serif;"></p>
 
@@ -1123,7 +1185,7 @@
       if (baslikTikSayisi >= 7) {
         baslikTikSayisi = 0;
         const el = document.getElementById("baslikMesaj");
-        el.textContent = "👀 beni 7 kez tıkladın... izliyorum seni.";
+        el.textContent = t("baslik7Msg");
         setTimeout(() => { el.textContent = ""; }, 3000);
       }
     });
@@ -1542,7 +1604,7 @@
         canvas.style.display = "block";
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const c2 = canvas.getContext("2d");
-        toastGoster("⬆⬆⬇⬇⬅➡⬅➡ B A — Konami aktif! 🎊", 3500);
+        toastGoster(t("konamiMsg"), 3500);
         let parts = [];
         for (let i = 0; i < 180; i++) {
           const a = Math.random()*Math.PI*2, sp = Math.random()*10+2;
@@ -1603,13 +1665,7 @@
       rageHarita.set(btn, gecmis);
       if (gecmis.length >= 5) {
         rageHarita.set(btn, []);
-        const secenekler = [
-          "sakin ol, duvarları yıkıyorsun 🧱",
-          "bu butona ne yaptı ki sana? 😅",
-          "dur bir soluk al... 🌬️",
-          "TAMAM TAMAM anladım! 😤",
-          "bu buton artık sendika kuruyor"
-        ];
+        const secenekler = (DILLER[mevcutDil] || DILLER.tr).rageClickler;
         toastGoster(secenekler[Math.floor(Math.random()*secenekler.length)], 2800);
         document.body.classList.remove("sarsilıyor");
         void document.body.offsetWidth;
@@ -1650,7 +1706,7 @@
       const cols = Math.floor(canvas.width / 18);
       const drops = Array(cols).fill(1);
       const chars = "アイウエカキクコサシスセタチツテナ01ABCDEF♦♠♣▲►◄";
-      toastGoster("Matrix aktif • M tuşunu 1.8s tut → kapat", 3000);
+      toastGoster(t("matrixMsg"), 3000);
       c2.font = "15px 'Courier New'";
       function drawM() {
         c2.fillStyle = "rgba(0,0,0,0.05)"; c2.fillRect(0,0,canvas.width,canvas.height);
@@ -2274,18 +2330,22 @@
         </div>
 
         <div id="gw-coworkers" style="display:none;">
-          <div style="min-height:65vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:60px 40px;background:#f7faf7;">
+          <div id="gwCowKilit" style="min-height:65vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:60px 40px;background:#f7faf7;">
             <div style="font-size:52px;margin-bottom:22px;opacity:0.3;">&#128274;</div>
             <p style="color:#1b4332;font-size:12px;font-weight:700;letter-spacing:3px;margin:0 0 10px;text-transform:uppercase;">Restricted Access</p>
             <p style="color:#95d5b2;font-size:14px;margin:0 0 34px;">Please enter your security code to proceed.</p>
-            <input type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+            <input id="gwCowInp" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
                    style="font-size:18px;padding:13px 20px;border:2px solid #b7e4c7;border-radius:8px;
                           background:#f0faf2;color:#1b4332;outline:none;text-align:center;
-                          width:240px;letter-spacing:6px;margin-bottom:14px;display:block;">
-            <button style="background:#2d6a4f;color:#fff;border:none;padding:12px 32px;border-radius:8px;
+                          width:240px;letter-spacing:6px;margin-bottom:14px;display:block;"
+                   onkeydown="if(event.key==='Enter')gwCowDene()">
+            <div id="gwCowHata" style="color:#c0392b;font-size:12px;margin-bottom:10px;min-height:16px;"></div>
+            <button onclick="gwCowDene()"
+                    style="background:#2d6a4f;color:#fff;border:none;padding:12px 32px;border-radius:8px;
                            font-size:12px;cursor:pointer;box-shadow:0 4px 12px rgba(45,106,79,0.25);
                            letter-spacing:2px;">SUBMIT</button>
           </div>
+          <div id="gwCowGazete" style="display:none;"></div>
         </div>
 
         <div id="gw-contact" style="display:none;">
@@ -2951,6 +3011,97 @@
       }, gecikme);
     }
 
+    // ── TGZ COWORKERS ────────────────────────────────────────────
+    function gwCowDene() {
+      const inp = document.getElementById("gwCowInp");
+      const hata = document.getElementById("gwCowHata");
+      if (!inp) return;
+      if (inp.value === "QWEOOM38") {
+        document.getElementById("gwCowKilit").style.display = "none";
+        const gazete = document.getElementById("gwCowGazete");
+        gazete.style.display = "block";
+        gazete.innerHTML = `
+<div style="background:#f2e8d0;min-height:70vh;padding:32px 28px 48px;font-family:'Times New Roman',serif;max-width:720px;margin:0 auto;border:1px solid #c8b890;box-shadow:4px 4px 18px rgba(0,0,0,0.18);position:relative;">
+  <!-- paper texture overlay -->
+  <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(180,160,110,0.07) 28px,rgba(180,160,110,0.07) 29px);pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 60%,rgba(120,90,40,0.18) 100%);pointer-events:none;"></div>
+
+  <!-- masthead -->
+  <div style="border-top:4px solid #3a2a10;border-bottom:4px solid #3a2a10;padding:8px 0;text-align:center;margin-bottom:4px;position:relative;z-index:1;">
+    <div style="font-size:9px;letter-spacing:4px;color:#5a3e1b;margin-bottom:4px;">MILLHAVEN &bull; OHIO &bull; ESTABLISHED 1924</div>
+    <div style="font-size:40px;font-weight:900;color:#1a0f00;letter-spacing:1px;line-height:1;">The Millhaven Chronicle</div>
+    <div style="font-size:8px;color:#5a3e1b;letter-spacing:3px;margin-top:3px;">TRUTH IN EVERY WORD</div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:8px;color:#5a3e1b;letter-spacing:1px;border-bottom:1px solid #8a6a30;padding:3px 0 4px;margin-bottom:14px;position:relative;z-index:1;">
+    <span>VOL. LXXV &bull; NO. 214</span>
+    <span>THURSDAY, SEPTEMBER 23, 1999</span>
+    <span>PRICE: 35&cent;</span>
+  </div>
+
+  <!-- headline -->
+  <div style="position:relative;z-index:1;">
+    <div style="font-size:9px;letter-spacing:3px;color:#8a3030;margin-bottom:6px;font-weight:700;">LOCAL NEWS &mdash; URGENT</div>
+    <h1 style="font-size:32px;font-weight:900;color:#1a0f00;line-height:1.1;margin:0 0 4px;border-bottom:2px solid #3a2a10;padding-bottom:8px;">MILLHAVEN GIRL, 9, MISSING SINCE TUESDAY</h1>
+    <h2 style="font-size:16px;font-weight:400;font-style:italic;color:#3a2a10;margin:0 0 14px;">Family pleads for information; search teams deployed across county</h2>
+  </div>
+
+  <!-- two-column body -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;position:relative;z-index:1;">
+    <!-- col 1 -->
+    <div>
+      <p style="font-size:12px;line-height:1.7;color:#2a1a08;margin:0 0 10px;text-align:justify;">
+        <span style="float:left;font-size:46px;line-height:0.8;font-weight:900;color:#1a0f00;margin:4px 5px 0 0;">A</span>uthorities are asking for the public's help in locating <strong>Karren Loidis</strong>, age 9, who was reported missing by her parents on the evening of Tuesday, September 21st. The girl was last seen near the <span style="filter:blur(3px);user-select:none;">northern edge of Wexford Park</span> at approximately <span style="filter:blur(2.5px);user-select:none;">4:15 in the afternoon</span>, according to a witness statement given to the Millhaven Police Department.
+      </p>
+      <p style="font-size:12px;line-height:1.7;color:#2a1a08;margin:0 0 10px;text-align:justify;">
+        Karren, described as a <span style="filter:blur(2px);user-select:none;">pale-complexioned</span> child with <span style="filter:blur(2px);user-select:none;">dark brown hair</span> and hazel eyes, stands approximately <span style="filter:blur(3px);user-select:none;">4 feet 2 inches</span> tall and weighs roughly <span style="filter:blur(3px);user-select:none;">58 pounds</span>. She was last seen wearing a <span style="filter:blur(2.5px);user-select:none;">yellow checkered jacket</span>, <span style="filter:blur(2px);user-select:none;">dark jeans</span>, and white sneakers.
+      </p>
+      <p style="font-size:12px;line-height:1.7;color:#2a1a08;margin:0 0 10px;text-align:justify;">
+        Her father, <strong>Harold Loidis</strong>, 41, spoke briefly with reporters outside the family's home on Cresthaven Avenue Wednesday morning. "She is a good girl," he said, his voice <span style="filter:blur(2px);user-select:none;">breaking with emotion</span>. "If anyone has seen her, please — please call the police. We just want her home." His wife, <strong>Marian Loidis</strong>, 38, was <span style="filter:blur(3px);user-select:none;">too distraught to speak publicly</span>.
+      </p>
+      <p style="font-size:12px;line-height:1.7;color:#2a1a08;margin:0 0 10px;text-align:justify;">
+        Sheriff's deputies and <span style="filter:blur(2.5px);user-select:none;">volunteer search teams</span> have been combing the woods <span style="filter:blur(4px);user-select:none;">south of Loidismark Rd. and the adjoining county parcels</span> since early Wednesday. As of press time, no trace of the child had been recovered. A <span style="filter:blur(2px);user-select:none;">K-9 unit from the</span> <span style="filter:blur(4px);user-select:none;">Hargrove County Sheriff's Office</span> was brought in to assist in the search on Wednesday afternoon.
+      </p>
+    </div>
+
+    <!-- col 2 -->
+    <div>
+      <!-- blurry photo placeholder -->
+      <div style="background:#c8b47a;height:160px;margin-bottom:8px;border:1px solid #8a6a30;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+        <div style="width:100%;height:100%;filter:blur(6px) brightness(0.85) sepia(0.4);background:repeating-linear-gradient(45deg,#b09050 0px,#c8b47a 4px,#a07840 8px,#c8b47a 12px);opacity:0.7;"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;filter:blur(3px);">
+            <div style="font-size:52px;opacity:0.35;">&#128100;</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:8.5px;color:#5a3e1b;font-style:italic;text-align:center;margin-bottom:12px;filter:blur(1.5px);">School photo of Karren Loidis, provided by the family. &mdash; Millhaven Unified School District</div>
+
+      <p style="font-size:12px;line-height:1.7;color:#2a1a08;margin:0 0 10px;text-align:justify;">
+        Millhaven Police Chief <span style="filter:blur(3px);user-select:none;">Donald Hare</span> confirmed that investigators are pursuing <span style="filter:blur(2px);user-select:none;">"all available leads"</span> and declined to specify whether the disappearance is being treated as a <span style="filter:blur(3.5px);user-select:none;">criminal matter</span>. "We are doing everything in our power to bring Karren home safely," Chief <span style="filter:blur(2px);user-select:none;">Hare</span> said in a brief statement to the press.
+      </p>
+      <p style="font-size:12px;line-height:1.7;color:#2a1a08;margin:0 0 10px;text-align:justify;">
+        <span style="filter:blur(4px);user-select:none;">Neighbors on Cresthaven described the Loidis family as quiet and well-regarded. Several expressed shock and concern. "This is not the kind of thing that happens here," said one resident who declined to give her name. "Millhaven is supposed to be a safe place."</span>
+      </p>
+      <p style="font-size:12px;line-height:1.7;color:#2a1a08;margin:0 0 10px;text-align:justify;">
+        <span style="filter:blur(5px);user-select:none;">Anyone with information regarding the whereabouts of Karren Loidis is urged to contact the Millhaven Police Department at (419) 555-0184 or the county tip line at (419) 555-0100. A reward of $</span><span style="filter:blur(6px);user-select:none;">2,500 has been offered by an anonymous donor for information leading to her safe return.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- footer rule -->
+  <div style="border-top:1px solid #8a6a30;margin-top:18px;padding-top:8px;display:flex;justify-content:space-between;font-size:8px;color:#7a5a28;font-style:italic;position:relative;z-index:1;">
+    <span>Continued on A-4</span>
+    <span style="filter:blur(1.5px);">Staff reporter: <span style="filter:blur(2px);">E. Calloway</span></span>
+    <span>&copy; 1999 The Millhaven Chronicle</span>
+  </div>
+</div>`;
+      } else {
+        hata.textContent = "Invalid security code.";
+        inp.value = "";
+        setTimeout(function() { hata.textContent = ""; }, 2200);
+      }
+    }
+
     // ── MERKEZ KODU ──────────────────────────────────────────────
     function merkezKoduDene() {
       const inp = document.getElementById("merkezKoduInp");
@@ -3180,6 +3331,10 @@
         sihrBtn:     "✦ Butonların Sihrini Keşfet",
         sihrBaslik:  "✦ Butonların Sihri ✦",
         sihrKapat:   "Anladım. ✦",
+        baslik7Msg:  "👀 beni 7 kez tıkladın... izliyorum seni.",
+        konamiMsg:   "⬆⬆⬇⬇⬅➡⬅➡ B A — Konami aktif! 🎊",
+        matrixMsg:   "Matrix aktif • M tuşunu 1.8s tut → kapat",
+        rageClickler:["sakin ol, duvarları yıkıyorsun 🧱","bu butona ne yaptı ki sana? 😅","dur bir soluk al... 🌬️","TAMAM TAMAM anladım! 😤","bu buton artık sendika kuruyor"],
         sihrIcerik:  "<p>Bir düşün. Sadece bir an için dur, derin bir nefes al ve düşün. Dünyada kaç tane buton var? Milyonlar mı? Milyarlar mı? Trilyonlar mı? Bu sorunun cevabı aslında önemli değil çünkü doğru cevap şu: yeterince. Ve bu yeterlik, medeniyetin kendisidir.</p><p>Butonlar. Bu küçük, mütevazı, yuvarlak kenarlı varoluşlar. Onlar olmadan ne yapardık? Hiçbir şey. Tam anlamıyla, eksiksiz, kusursuz bir hiçlik. Evet, hiçbir şey. Çünkü hayatta yapabileceğimiz her büyük eylemi başlatan şey, bir butona basmaktır. Bu bir gerçek değil; bu bir hakikattir. Fark büyük.</p><p>Sabah gözlerini açıyorsun. İlk düşüncen ne? Günaydın mı? Hayır. İlk düşüncen telefon ekranına uzanmak. Peki bu ne demek? Bir butona basmak demek. Hayatının birinci saniyesi bir butonla başlıyor. Ve bu tesadüf değil. Bu evrenin sana fısıldadığı bir mesaj: Sihir hep butonlardaydı.</p><p>Kahve makinesindeki o kırmızı butona bir baksana. Ne kadar güçlü. Ne kadar kararlı. Bütün gece orada bekliyor. Sabırla. Sessizce. Şikayet etmeden, yıldırılmadan, yorulmadan. Ve sen bastığında kahve akıyor, hayat başlıyor, dünya dönmeye devam ediyor. Bu bir buton değil. Bu bir güç santrali. Bu bir kahramandır.</p><p>Asansör butonunu düşün. O küçük, parlak, ışıklı varlık. Onlarca katı merdivenden çıkabilirsin ama hayır, çünkü bir buton var ve o buton seni yukarı taşıyor. Buton olmadan yerçekimi kazanırdı. Buton olmadan insanlık her sabah nefes nefese kalırdı. Buton olmadan mimarlık kâbusu olurdu. Buton, seni gökyüzüne taşıyan şeydir. Bu neredeyse uçmakla aynıdır.</p><p>Bazı insanlar butonlar sadece bir araçtır der. Bu insanlar yanılıyor. Korkunç biçimde, trajik biçimde, affedilemez biçimde yanılıyorlar. Butonlar bir felsefedir. Bir buton sen buna değersin der. Bir buton gel, şunu birlikte yapalım der. Bir butona bastığında evren bir mikro an için nefesini tutar. Ve sonra... bir şey olur. Her zaman bir şey olur. Mutlak, kaçınılmaz, görkemli bir şey.</p><p>Tarih boyunca büyük icatlar vardır: tekerlek, matbaa, elektrik, internet. Ama bunların hepsinde ne vardır biliyor musun? Bir buton. Çünkü basınca bir şeyler olur prensibi medeniyetin temelidir ve bu temel bir butondan geçer. Antik Romalılar bunu bilseydi belki imparatorlukları düşmezdi. Biz biliyoruz. Ve bu ayrıcalık.</p><p>Şimdi şu sayfadaki butonlara bak. Mavi Yap butonu. O küçük, cesur, mavi olmaya hazır düğme. Bir bastığında her şeyi maviye boyuyor. Bu ne büyük bir güç. Picasso fırçayla yıllarca mavi boyarken sen bir dokunuşla yapıyorsun. Sanat mı dedin? Hayır. Bundan daha büyük bir şey: anlık yaratım. Tanrısal hız.</p><p>Rastgele Renk butonunu düşün. Bu buton bir kumarhanedir, bir sürprizdir, hayatın öngörülmezliğinin kendisidir. Bastığında ne çıkacağını bilmiyorsun. Belki turuncu. Belki mor. Belki kimsenin adını bilmediği bir renk, varoluşun derinliklerinden çıkıp gelen isimsiz bir ton. Özgürlük işte budur.</p><p>Ve Sıfırla. Oh, Sıfırla butonu. En derin, en felsefi, en medresevi buton. Her şeyi unut, baştan başla diyor. Budizm bunu öğretmek için yüzyıllar harcadı. Psikologlar bunu anlatmak için yıllar geçiriyor. Bu buton bir tıklamayla yapıyor. Ücretsiz. Ek bölüm yok, altyazı yok, kayıt yok.</p><p>Sonuç olarak şunu söylemek istiyorum ve bu benim en derin, en samimi, en titrek sesimle söylediğim şey: <strong>Butonlar mucizedir.</strong> Butonlar hayatın ta kendisidir. Her buton bir karar, her basış bir seçim, her sonuç bir hikayedir. Ve sen bu sayfaya her girdiğinde, her butona her bastığında, bu hikayelerin yazarısın. Mürekkep senin parmağında, sayfa senin önünde.</p><p style='text-align:center;color:#9a7a30;font-size:13px;letter-spacing:1px;margin-bottom:0;'>Teşekkürler. Şimdi bir butona bas.</p>",
       },
       en: {
@@ -3200,6 +3355,10 @@
         sihrBtn:     "✦ Discover the Magic of Buttons",
         sihrBaslik:  "✦ The Magic of Buttons ✦",
         sihrKapat:   "I understand. ✦",
+        baslik7Msg:  "👀 you clicked me 7 times... I'm watching you.",
+        konamiMsg:   "⬆⬆⬇⬇⬅➡⬅➡ B A — Konami active! 🎊",
+        matrixMsg:   "Matrix active • Hold M for 1.8s → deactivate",
+        rageClickler:["calm down, you're breaking things 🧱","what did this button do to you? 😅","take a breath... 🌬️","OKAY OKAY I get it! 😤","this button is forming a union now"],
         sihrIcerik:  "<p>Think for a moment. Just stop, take a deep breath, and think. How many buttons are there in the world? Millions? Billions? Trillions? The answer doesn't really matter, because the correct answer is simply: enough. And that sufficiency is civilization itself.</p><p>Buttons. These small, humble, rounded-corner existences. What would we do without them? Nothing. Absolutely, completely, flawlessly nothing. Because every great action we can take in life begins with pressing a button. This is not a fact; this is a truth. The difference is significant.</p><p>You open your eyes in the morning. What is your first thought? Good morning? No. Your first thought is to reach for your phone screen. And what does that mean? It means pressing a button. The very first second of your life begins with a button. And this is not coincidence. It is a message the universe whispers to you: The magic was always in the buttons.</p><p>Look at the red button on the coffee machine. How powerful. How determined. It waits there all night. Patiently. Silently. Without complaining, without being deterred, without getting tired. And when you press it, coffee flows, life begins, the world keeps turning. This is not a button. This is a power plant. This is a hero.</p><p>Think about the elevator button. That small, bright, glowing existence. You could climb dozens of floors by stairs, but no — because there is a button and that button carries you upward. Without buttons, gravity would win. Without buttons, humanity would be breathless every morning. Without buttons, architecture would be a nightmare. A button is what carries you to the sky. That is almost the same as flying.</p><p>Some people say buttons are just tools. These people are wrong. Terribly, tragically, unforgivably wrong. Buttons are a philosophy. A button says you deserve this. A button says come, let us do this together. When you press a button, the universe holds its breath for a micro moment. And then... something happens. Something always happens. Something absolute, inevitable, magnificent.</p><p>Throughout history there have been great inventions: the wheel, the printing press, electricity, the internet. But what is in all of them? A button. Because the principle of something happens when pressed is the foundation of civilization, and that foundation passes through a button. If the ancient Romans had known this, perhaps their empire would not have fallen. We know. And this is a privilege.</p><p>Now look at the buttons on this page. The Make Blue button. That small, brave, ready-to-be-blue key. When you press it, everything turns blue. What great power. While Picasso spent years painting blue with a brush, you do it with one touch. Did you say art? No. Something greater: instant creation. Divine speed.</p><p>Think about the Random Color button. This button is a casino, a surprise, the unpredictability of life itself. When you press it, you don't know what will come. Maybe orange. Maybe purple. Maybe a color no one knows the name of, a nameless tone from the depths of existence. This is freedom.</p><p>And Reset. Oh, the Reset button. The deepest, most philosophical, most meditative button. It says forget everything, start over. Buddhism spent centuries teaching this. Psychologists spend years explaining this. This button does it with one click. Free. No extra chapter, no subtitles, no registration.</p><p>In conclusion, I want to say this, and I say it with my deepest, most sincere, most trembling voice: <strong>Buttons are miracles.</strong> Buttons are life itself. Every button is a decision, every press is a choice, every result is a story. And every time you visit this page, every time you press a button, you are the author of these stories. The ink is on your finger, the page is before you.</p><p style='text-align:center;color:#9a7a30;font-size:13px;letter-spacing:1px;margin-bottom:0;'>Thank you. Now press a button.</p>",
       },
       de: {
@@ -3220,6 +3379,10 @@
         sihrBtn:     "✦ Entdecke die Magie der Knöpfe",
         sihrBaslik:  "✦ Die Magie der Knöpfe ✦",
         sihrKapat:   "Verstanden. ✦",
+        baslik7Msg:  "👀 du hast mich 7-mal geklickt... ich beobachte dich.",
+        konamiMsg:   "⬆⬆⬇⬇⬅➡⬅➡ B A — Konami aktiv! 🎊",
+        matrixMsg:   "Matrix aktiv • M 1,8s gedrückt halten → beenden",
+        rageClickler:["ruhig, du reißt die Wände ein 🧱","was hat der Knopf dir getan? 😅","atme kurz durch... 🌬️","GUT GUT, ich verstehe! 😤","dieser Knopf gründet jetzt eine Gewerkschaft"],
         sihrIcerik:  "<p>Denk mal nach. Halt kurz inne, atme tief durch und denk nach. Wie viele Knöpfe gibt es auf der Welt? Millionen? Milliarden? Billionen? Die Antwort ist eigentlich unwichtig, denn die richtige Antwort lautet schlicht: genug. Und diese Genügsamkeit ist die Zivilisation selbst.</p><p>Knöpfe. Diese kleinen, bescheidenen, mit abgerundeten Kanten ausgestatteten Existenzen. Was würden wir ohne sie tun? Nichts. Absolut, vollständig, makellos nichts. Denn jede große Handlung, die wir im Leben unternehmen können, beginnt mit dem Drücken eines Knopfes. Das ist keine Tatsache; das ist eine Wahrheit. Der Unterschied ist beträchtlich.</p><p>Du öffnest morgens die Augen. Was ist dein erster Gedanke? Guten Morgen? Nein. Dein erster Gedanke gilt dem Greifen nach deinem Telefonbildschirm. Und was bedeutet das? Es bedeutet, einen Knopf zu drücken. Die allererste Sekunde deines Lebens beginnt mit einem Knopf. Und das ist kein Zufall. Es ist eine Botschaft, die das Universum dir zuflüstert: Die Magie steckte schon immer in den Knöpfen.</p><p>Schau dir den roten Knopf an der Kaffeemaschine an. Wie mächtig. Wie entschlossen. Er wartet die ganze Nacht dort. Geduldig. Still. Ohne zu klagen, ohne sich beirren zu lassen, ohne zu ermüden. Und wenn du ihn drückst, fließt Kaffee, beginnt das Leben, dreht sich die Welt weiter. Das ist kein Knopf. Das ist ein Kraftwerk. Das ist ein Held.</p><p>Denk an den Aufzugknopf. Diese kleine, helle, leuchtende Existenz. Du könntest dutzende Stockwerke über Treppen erklimmen, aber nein — denn es gibt einen Knopf, und dieser Knopf trägt dich nach oben. Ohne Knöpfe würde die Schwerkraft gewinnen. Ohne Knöpfe wäre die Menschheit jeden Morgen atemlos. Ohne Knöpfe wäre Architektur ein Albtraum. Ein Knopf ist das, was dich in den Himmel trägt. Das ist beinahe dasselbe wie Fliegen.</p><p>Manche Menschen sagen Knöpfe sind nur Werkzeuge. Diese Menschen irren sich. Schrecklich, tragisch, unverzeihlich. Knöpfe sind eine Philosophie. Ein Knopf sagt du hast das verdient. Ein Knopf sagt komm, lass uns das zusammen tun. Wenn du einen Knopf drückst, hält das Universum für einen Mikro-Moment den Atem an. Und dann... passiert etwas. Es passiert immer etwas. Etwas Absolutes, Unvermeidliches, Großartiges.</p><p>Im Laufe der Geschichte gab es große Erfindungen: das Rad, die Druckerpresse, die Elektrizität, das Internet. Aber was steckt in all diesen? Ein Knopf. Denn das Prinzip wenn gedrückt, passiert etwas ist das Fundament der Zivilisation. Hätten die alten Römer das gewusst, wäre ihr Reich vielleicht nicht gefallen. Wir wissen es. Und das ist ein Privileg.</p><p>Jetzt schau auf die Knöpfe auf dieser Seite. Der Blau-machen-Knopf. Diese kleine, mutige, bereit-zum-Blauwerden-Taste. Wenn du sie drückst, färbt sich alles blau. Was für eine großartige Macht. Während Picasso jahrelang mit dem Pinsel blau malte, tust du es mit einer einzigen Berührung. Kunst, sagst du? Nein. Etwas Größeres: sofortige Schöpfung. Göttliche Geschwindigkeit.</p><p>Denk an den Zufallsfarbe-Knopf. Dieser Knopf ist ein Kasino, eine Überraschung, die Unvorhersehbarkeit des Lebens selbst. Wenn du ihn drückst, weißt du nicht, was kommt. Vielleicht Orange. Vielleicht Lila. Vielleicht eine Farbe, deren Namen niemand kennt. Das ist Freiheit.</p><p>Und Zurücksetzen. Oh, der Zurücksetzen-Knopf. Der tiefste, philosophischste, meditativste Knopf. Er sagt vergiss alles, fang neu an. Der Buddhismus verbrachte Jahrhunderte damit, das zu lehren. Dieser Knopf macht es mit einem Klick. Kostenlos. Kein Zusatzkapitel, keine Untertitel, keine Registrierung.</p><p>Abschließend möchte ich Folgendes sagen, und das mit meiner tiefsten, aufrichtigsten, zitterndsten Stimme: <strong>Knöpfe sind Wunder.</strong> Knöpfe sind das Leben selbst. Jeder Knopf ist eine Entscheidung, jeder Druck ist eine Wahl, jedes Ergebnis ist eine Geschichte. Und jedes Mal, wenn du diese Seite besuchst, bist du der Autor dieser Geschichten. Die Tinte ist an deinem Finger, die Seite liegt vor dir.</p><p style='text-align:center;color:#9a7a30;font-size:13px;letter-spacing:1px;margin-bottom:0;'>Danke. Drück jetzt einen Knopf.</p>",
       },
       ja: {
@@ -3240,6 +3403,10 @@
         sihrBtn:     "✦ ボタンの魔法を発見する",
         sihrBaslik:  "✦ ボタンの魔法 ✦",
         sihrKapat:   "わかった。✦",
+        baslik7Msg:  "👀 7回クリックしたね…見てるよ。",
+        konamiMsg:   "⬆⬆⬇⬇⬅➡⬅➡ B A — コナミ発動！🎊",
+        matrixMsg:   "マトリックス起動 • Mを1.8秒押す → 解除",
+        rageClickler:["落ち着いて、壁が壊れる 🧱","このボタン、何かした？ 😅","ちょっと深呼吸して... 🌬️","わかったわかった！ 😤","このボタンが労働組合を結成中"],
         sihrIcerik:  "<p>考えてみてください。少しだけ立ち止まって、深呼吸して、考えてみてください。世界にはいくつのボタンがあるでしょうか？何百万個？何十億個？何兆個？実はどれも重要ではありません。正しい答えはただ一つ：十分あるということ。そしてその「十分さ」こそが、文明そのものです。</p><p>ボタン。この小さくて、謙虚で、角の丸い存在たち。それなしに私たちは何ができるでしょうか？何もできません。まったく、完全に、完璧に何もできません。なぜなら人生において私たちが行うあらゆる偉大な行動は、ボタンを押すことから始まるからです。これは事実ではありません；これは真実です。その違いは大きい。</p><p>朝、目を覚まします。最初に思うことは何でしょうか？「おはよう」ですか？いいえ。最初に思うのは、スマートフォンの画面に手を伸ばすことです。それはどういうことでしょうか？ボタンを押すということです。あなたの人生の最初の1秒は、ボタンと共に始まります。そしてこれは偶然ではありません。宇宙があなたに囁くメッセージです：「魔法は、ずっとボタンの中にあった。」</p><p>コーヒーメーカーの赤いボタンを見てください。なんと力強い。なんと決意に満ちている。一晩中そこで待っています。忍耐強く。静かに。文句も言わず、臆することもなく、疲れることもなく。そしてあなたが押したとき、コーヒーが流れ、人生が始まり、世界が回り続けます。これはボタンではありません。これは発電所です。これは英雄です。</p><p>エレベーターのボタンを考えてみてください。あの小さくて、明るく、光り輝く存在。何十階もの階段を登ることもできます。でも違います。なぜなら、ボタンがあって、そのボタンがあなたを上へと運んでくれるからです。ボタンがなければ重力が勝ちます。ボタンがなければ人類は毎朝息切れしていたでしょう。ボタンがなければ建築は悪夢になっていたでしょう。ボタンこそがあなたを空へと運ぶものです。それは飛ぶことと、ほとんど同じです。</p><p>「ボタンはただの道具だ」と言う人がいます。その人たちは間違っています。ひどく、悲劇的に、許しがたいほど間違っています。ボタンは哲学です。ボタンは「あなたはそれに値する」と言います。ボタンは「さあ、一緒にやろう」と言います。ボタンを押したとき、宇宙は一瞬だけ息を止めます。そして…何かが起こります。いつも何かが起こります。絶対的で、不可避で、壮大な何かが。</p><p>歴史を通じて、偉大な発明がありました：車輪、印刷機、電気、インターネット。でもそのすべての中に何があるか分かりますか？ボタンです。「押すと何かが起こる」という原理は文明の基盤です。古代ローマ人がこれを知っていたら、おそらく帝国は滅びなかったでしょう。私たちは知っています。そしてこれは特権です。</p><p>このページのボタンを見てください。「青にする」ボタン。あの小さくて、勇敢で、青くなる準備ができているキー。押すと、すべてが青くなります。なんという大きな力でしょう。ピカソが筆で何年もかけて青を描いた一方で、あなたは一度のタッチでそれをします。芸術と言いましたか？いいえ。それ以上のもの：即座の創造。神々しい速さ。</p><p>「ランダムカラー」ボタンを考えてみてください。このボタンはカジノであり、サプライズであり、人生の予測不可能性そのものです。押したとき、何が来るか分かりません。オレンジかもしれない。紫かもしれない。誰も名前を知らない色かもしれない。これが自由です。</p><p>そして「リセット」。ああ、「リセット」ボタン。最も深く、最も哲学的な、最も瞑想的なボタン。「すべてを忘れて、やり直せ」と言っています。仏教はこれを教えるのに何世紀もかけました。このボタンはワンクリックでそれをします。無料で。追加の章なし、字幕なし、登録なし。</p><p>最後に、これだけ言わせてください — 私の最も深く、最も誠実な、最も震える声で：<strong>ボタンは奇跡です。</strong>ボタンは命そのものです。すべてのボタンは決断であり、すべての押下は選択であり、すべての結果は物語です。そしてあなたがこのページを訪れるたびに、ボタンを押すたびに、あなたがその物語の著者です。インクはあなたの指の上に、ページはあなたの前にあります。</p><p style='text-align:center;color:#9a7a30;font-size:13px;letter-spacing:1px;margin-bottom:0;'>ありがとうございます。今すぐボタンを押してください。</p>",
       }
     };
@@ -3573,7 +3740,326 @@
       }
     })();
 
+    // ═══════════════════════════════════════════════════
+    // 8 SEÇİLMİŞ ÖZELLİK — JAVASCRIPT
+    // ═══════════════════════════════════════════════════
+
+    // ── 1. CONFETTI BURST (C) ────────────────────────
+    function konfetti() {
+      const cvs = document.getElementById("konfettiCvs");
+      cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+      cvs.style.display = "block";
+      const ctx = cvs.getContext("2d");
+      const renkler = ["#c4b08a","#8b7355","#d4a017","#5a4a30","#e8dfc8","#9a7a30","#fff8e7"];
+      const p = Array.from({length:120}, function() {
+        return { x:Math.random()*cvs.width, y:-10, vx:(Math.random()-0.5)*4, vy:2+Math.random()*4,
+          rot:Math.random()*360, vr:(Math.random()-0.5)*8, w:6+Math.random()*8, h:3+Math.random()*5,
+          c:renkler[Math.floor(Math.random()*renkler.length)], op:1 };
+      });
+      function ciz() {
+        ctx.clearRect(0,0,cvs.width,cvs.height);
+        let aktif=false;
+        p.forEach(function(q) {
+          if(q.y>cvs.height+20) return; aktif=true;
+          q.x+=q.vx; q.y+=q.vy; q.vy+=0.08; q.rot+=q.vr;
+          if(q.y>cvs.height*0.7) q.op=Math.max(0,q.op-0.015);
+          ctx.save(); ctx.globalAlpha=q.op; ctx.translate(q.x,q.y); ctx.rotate(q.rot*Math.PI/180);
+          ctx.fillStyle=q.c; ctx.fillRect(-q.w/2,-q.h/2,q.w,q.h); ctx.restore();
+        });
+        if(aktif) requestAnimationFrame(ciz);
+        else { cvs.style.display="none"; ctx.clearRect(0,0,cvs.width,cvs.height); }
+      }
+      ciz();
+    }
+
+    // ── 2. BREATHING EXERCISE (B) ────────────────────
+    let nefesAktif=false, nefesInter=null;
+    function nefesBaslat() {
+      document.getElementById("nefesOv").style.display="flex"; nefesAktif=true;
+      const c=document.getElementById("nefesCircle"), d=document.getElementById("nefesDurum");
+      let faz=0;
+      function adim() {
+        if(!nefesAktif) return;
+        const fazlar=[{t:4000,s:"inhale",sc:1.6,bc:"rgba(196,176,138,0.7)"},
+                      {t:2000,s:"hold",sc:1.6,bc:"rgba(196,176,138,0.5)"},
+                      {t:4000,s:"exhale",sc:1,bc:"rgba(196,176,138,0.2)"},
+                      {t:2000,s:"hold",sc:1,bc:"rgba(196,176,138,0.2)"}];
+        const f=fazlar[faz%4];
+        c.textContent=f.s; d.textContent=f.s;
+        c.style.transform="scale("+f.sc+")"; c.style.borderColor=f.bc;
+        nefesInter=setTimeout(function(){faz++;adim();},f.t);
+      }
+      adim();
+    }
+    function nefesKapat() {
+      nefesAktif=false; clearTimeout(nefesInter);
+      document.getElementById("nefesOv").style.display="none";
+      const c=document.getElementById("nefesCircle");
+      c.style.transform="scale(1)"; c.textContent="inhale";
+    }
+
+    // ── 4. MINI PIANO MODE (P + A-K) ─────────────────
+    let pianoMod=false;
+    const pianoNotalari={a:261.6,s:293.7,d:329.6,f:349.2,g:392,h:440,j:493.9,k:523.3};
+    function pianoToggle() {
+      pianoMod=!pianoMod;
+      document.getElementById("pianoInd").style.display=pianoMod?"block":"none";
+      toastGoster(pianoMod?"🎹 piano mode · A–K = notalar":"piano mode off",1800);
+    }
+
+    // ── 5. RANDOM QUOTE (Q) ──────────────────────────
+    const ALINTLAR=[
+      {m:"The only way to do great work is to love what you do.",y:"Steve Jobs"},
+      {m:"In the middle of every difficulty lies opportunity.",y:"Albert Einstein"},
+      {m:"Simplicity is the ultimate sophistication.",y:"Leonardo da Vinci"},
+      {m:"The best time to plant a tree was 20 years ago. The second best time is now.",y:"Chinese proverb"},
+      {m:"Life is what happens when you're busy making other plans.",y:"John Lennon"},
+      {m:"The journey of a thousand miles begins with a single step.",y:"Lao Tzu"},
+      {m:"Imagination is more important than knowledge.",y:"Albert Einstein"},
+      {m:"The unexamined life is not worth living.",y:"Socrates"},
+      {m:"We are what we repeatedly do. Excellence is not an act but a habit.",y:"Aristotle"},
+      {m:"Without music, life would be a mistake.",y:"Nietzsche"},
+      {m:"Be yourself; everyone else is already taken.",y:"Oscar Wilde"},
+      {m:"Do not dwell in the past, do not dream of the future — concentrate on the present.",y:"Buddha"},
+      {m:"Two things are infinite: the universe and human stupidity.",y:"Albert Einstein"},
+      {m:"The only true wisdom is in knowing you know nothing.",y:"Socrates"},
+      {m:"That which does not kill us makes us stronger.",y:"Nietzsche"}
+    ];
+    function rastgeleAlintiGoster() {
+      const a=ALINTLAR[Math.floor(Math.random()*ALINTLAR.length)];
+      document.getElementById("alintıMetin").textContent="“"+a.m+"”";
+      document.getElementById("alintıYazar").textContent="— "+a.y;
+      document.getElementById("alintıOv").style.display="flex";
+    }
+
+    // ── 3. POMODORO ──────────────────────────────────
+    let pomSn=1500,pomInt=null,pomMod2="WORK",pomSayac=0;
+    function pomodoroGoster() {
+      const el=document.getElementById("pomodoroPanel2");
+      el.style.display=el.style.display==="none"||!el.style.display?"block":"none";
+    }
+    function pomGuncelle() {
+      const m=Math.floor(pomSn/60),s=pomSn%60;
+      document.getElementById("pomodoroEkran").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+      document.getElementById("pomodoroMod").textContent=pomMod2;
+    }
+    function pomodoroBaslat() {
+      if(pomInt) return;
+      pomInt=setInterval(function(){
+        pomSn--;pomGuncelle();
+        if(pomSn<=0){
+          clearInterval(pomInt);pomInt=null;pomSayac++;
+          if(pomMod2==="WORK"){pomMod2=pomSayac%4===0?"LONG BREAK":"BREAK";pomSn=pomSayac%4===0?900:300;toastGoster("✓ work done — take a break",4000);}
+          else{pomMod2="WORK";pomSn=1500;toastGoster("break over — time to focus!",3500);}
+          pomGuncelle();
+          try{const c=sesCtxAl();const o=c.createOscillator();const g=c.createGain();
+            o.connect(g);g.connect(c.destination);o.type="sine";o.frequency.value=660;
+            g.gain.setValueAtTime(0.3,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+1.5);
+            o.start(c.currentTime);o.stop(c.currentTime+1.5);}catch(e){}
+        }
+      },1000);
+    }
+    function pomodoroDur(){clearInterval(pomInt);pomInt=null;}
+    function pomodoroSifirla(){pomodoroDur();pomSn=1500;pomMod2="WORK";pomSayac=0;pomGuncelle();}
+
+    // ── 4. ACHIEVEMENTS ──────────────────────────────
+    const BASARILAR=[
+      {id:"ilk",   emoji:"🎯",isim:"First Click",  aciklama:"Pressed any button for the first time",kosul:function(s){return s.toplam>=1;}},
+      {id:"bes",   emoji:"⭐",isim:"Five Clicks",  aciklama:"Pressed buttons 5 times",               kosul:function(s){return s.toplam>=5;}},
+      {id:"yirmi", emoji:"🌟",isim:"Twenty",       aciklama:"Pressed buttons 20 times",              kosul:function(s){return s.toplam>=20;}},
+      {id:"yuz",   emoji:"💎",isim:"Centurion",    aciklama:"100 button presses total",              kosul:function(s){return s.toplam>=100;}},
+      {id:"mavi10",emoji:"🔵",isim:"True Blue",    aciklama:"Made it blue 10 times",                 kosul:function(s){return s.mavi>=10;}},
+      {id:"kaos",  emoji:"💥",isim:"Chaos Agent",  aciklama:"Started chaos mode",                    kosul:function(s){return s.kaos>=1;}},
+      {id:"gece",  emoji:"🌙",isim:"Night Owl",    aciklama:"Switched to night mode",                kosul:function(s){return s.gece>=1;}},
+      {id:"reset", emoji:"↩",isim:"Clean Slate",  aciklama:"Reset 5 times",                         kosul:function(s){return s.sifirla>=5;}},
+      {id:"piano", emoji:"🎹",isim:"Pianist",      aciklama:"Played the piano mode",                 kosul:function(s){return s.piano>=1;}},
+      {id:"konami",emoji:"🎮",isim:"Gamer",        aciklama:"Entered the Konami code",               kosul:function(s){return s.konami>=1;}}
+    ];
+    let basariStats=(function(){try{return JSON.parse(localStorage.getItem("zh_basari_stats"))||{toplam:0,mavi:0,kaos:0,gece:0,sifirla:0,piano:0,konami:0};}catch(e){return{toplam:0,mavi:0,kaos:0,gece:0,sifirla:0,piano:0,konami:0};}})();
+    let kazanilanlar=(function(){try{return JSON.parse(localStorage.getItem("zh_basarilar"))||[];}catch(e){return[];}})();
+    function basariKaydet(){localStorage.setItem("zh_basari_stats",JSON.stringify(basariStats));}
+    function basariKontrol(){
+      BASARILAR.forEach(function(b){
+        if(kazanilanlar.indexOf(b.id)===-1&&b.kosul(basariStats)){
+          kazanilanlar.push(b.id);
+          localStorage.setItem("zh_basarilar",JSON.stringify(kazanilanlar));
+          const tost=document.getElementById("basariTost");
+          tost.textContent=b.emoji+" "+b.isim+" unlocked!";
+          tost.style.opacity="1";
+          setTimeout(function(){tost.style.opacity="0";},3500);
+        }
+      });
+    }
+    function basariEkle(alan,miktar){
+      basariStats.toplam=(basariStats.toplam||0)+(miktar||0);
+      if(alan)basariStats[alan]=(basariStats[alan]||0)+1;
+      basariKaydet();basariKontrol();
+    }
+    function basariGoster(){
+      const l=document.getElementById("basariListesi");
+      l.innerHTML=BASARILAR.map(function(b){
+        const k=kazanilanlar.indexOf(b.id)!==-1;
+        return '<div class="bsr-item'+(k?'':' kilitli')+'"><div class="bsr-emoji">'+b.emoji+'</div><div class="bsr-bilgi"><strong>'+b.isim+'</strong>'+b.aciklama+'</div></div>';
+      }).join("");
+      document.getElementById("basariOv").style.display="flex";
+    }
+    (function(){
+      const origMavi=window.maviYap,origSifirla=window.sifirla;
+      if(origMavi)window.maviYap=function(){origMavi();basariEkle("mavi",1);};
+      if(origSifirla)window.sifirla=function(){origSifirla();basariEkle("sifirla",1);};
+    })();
+    document.addEventListener("click",function(e){
+      if(e.target.closest("button")&&!e.target.closest("#ayarlarPanel")&&!e.target.closest("#sihrModal")&&!e.target.closest(".yp")&&!e.target.closest("#kisayolKutu")&&!e.target.closest("#basariKutu")&&!e.target.closest("#temaKutu")&&!e.target.closest("#alintıKutu"))
+        basariEkle(null,1);
+    });
+
+    // ── 5. THEME PRESETS ────────────────────────────
+    const TEMALAR={
+      sicak:{krem:"#f5f0e8",kremA:"#fdf8f0",kahve:"#8b7355",kahveA:"#c4b08a",lac:"rgb(45,43,94)"},
+      serin:{krem:"#e8eff5",kremA:"#f0f6fc",kahve:"#4a7a9b",kahveA:"#7aaac8",lac:"rgb(30,50,90)"},
+      orman:{krem:"#eaf0ea",kremA:"#f2f7f2",kahve:"#4a7a4a",kahveA:"#7ab07a",lac:"rgb(20,50,30)"},
+      gece: {krem:"#eeeaf8",kremA:"#f6f4fc",kahve:"#7060a0",kahveA:"#a898c8",lac:"rgb(40,30,70)"}
+    };
+    function temaUygula(isim){
+      const t=TEMALAR[isim];if(!t)return;
+      const r=document.documentElement.style;
+      r.setProperty("--krem",t.krem);r.setProperty("--krem-acik",t.kremA);
+      r.setProperty("--kahve",t.kahve);r.setProperty("--kahve-acik",t.kahveA);
+      r.setProperty("--lacivert",t.lac);
+      document.body.style.backgroundColor=t.krem;
+      document.getElementById("temaOv").style.display="none";
+      toastGoster("theme: "+isim,1500);
+    }
+    function temaGoster(){document.getElementById("temaOv").style.display="flex";}
+
+    // ── 6. KEYBOARD SHORTCUTS (?) ───────────────────
+    document.addEventListener("keydown",function(e){
+      if(e.target.matches("input,textarea"))return;
+      const k=e.key.toLowerCase();
+      if(pianoMod&&pianoNotalari[k]){
+        e.preventDefault();
+        try{const c=sesCtxAl();const o=c.createOscillator();const g=c.createGain();
+          o.type="triangle";o.frequency.value=pianoNotalari[k];
+          o.connect(g);g.connect(c.destination);
+          g.gain.setValueAtTime(0.3,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.8);
+          o.start(c.currentTime);o.stop(c.currentTime+0.85);}catch(ex){}
+        return;
+      }
+      if(k==="p"&&!e.ctrlKey&&!e.metaKey){pianoToggle();return;}
+      if(e.key==="?"||k==="?"){
+        const ov=document.getElementById("kisayolOv");
+        ov.style.display=ov.style.display==="flex"?"none":"flex";return;
+      }
+      if(k==="c"&&!e.ctrlKey&&!e.metaKey){konfetti();return;}
+      if(k==="b"&&!e.ctrlKey&&!e.metaKey){nefesBaslat();return;}
+      if(k==="q"&&!e.ctrlKey&&!e.metaKey){rastgeleAlintiGoster();return;}
+      if(e.key==="Escape"){
+        ["kisayolOv","nefesOv","alintıOv","basariOv","temaOv"].forEach(function(id){
+          const el=document.getElementById(id);if(el)el.style.display="none";
+        });
+      }
+    });
+
+    // ── TOOLBAR ──────────────────────────────────────
+    document.addEventListener("DOMContentLoaded",function(){
+      const alan=document.createElement("div");
+      alan.id="yeniButonlar";
+      alan.style.cssText="margin:14px auto 0;max-width:700px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:10px 14px;background:rgba(139,115,85,0.06);border:1px solid rgba(139,115,85,0.1);border-radius:10px;";
+      const etiket=document.createElement("div");
+      etiket.style.cssText="width:100%;text-align:center;font-size:9px;letter-spacing:3px;color:rgba(139,115,85,0.4);font-family:'Courier New',monospace;margin-bottom:4px;text-transform:uppercase;";
+      etiket.textContent="Extras";
+      alan.appendChild(etiket);
+      function mkBtn(txt,fn){
+        const b=document.createElement("button");
+        b.textContent=txt;b.style.cssText="font-size:11px;padding:5px 11px;margin:0;border-radius:6px;";
+        b.onclick=fn;return b;
+      }
+      [["🎊 Confetti",konfetti],["🌬 Breathe",nefesBaslat],["🎹 Piano",pianoToggle],
+       ["💬 Quote",rastgeleAlintiGoster],["🍅 Pomodoro",pomodoroGoster],
+       ["🏆 Badges",basariGoster],["🎭 Themes",temaGoster],
+       ["? Shortcuts",function(){document.getElementById("kisayolOv").style.display="flex";}]
+      ].forEach(function(p){alan.appendChild(mkBtn(p[0],p[1]));});
+      const sihrBtn=document.querySelector('[onclick="butonSihriGoster()"]');
+      if(sihrBtn&&sihrBtn.parentNode)sihrBtn.parentNode.insertBefore(alan,sihrBtn.nextSibling);
+      else document.body.appendChild(alan);
+    });
+
   </script>
+
+  <!-- ═══════════════════════════════════════════════════
+       8 SEÇİLMİŞ ÖZELLİK — HTML
+  ═══════════════════════════════════════════════════ -->
+
+  <!-- 1 — Confetti canvas -->
+  <canvas id="konfettiCvs"></canvas>
+
+  <!-- 2 — Breathing overlay -->
+  <div id="nefesOv" onclick="nefesKapat()">
+    <button onclick="nefesKapat();event.stopPropagation()" style="position:absolute;top:20px;right:24px;background:none;border:none;color:rgba(196,176,138,0.35);font-size:22px;cursor:pointer;padding:0;margin:0;">✕</button>
+    <div id="nefesCircle">inhale</div>
+    <div id="nefesDurum">breathing exercise</div>
+  </div>
+
+  <!-- 3 — Piano indicator -->
+  <div id="pianoInd">🎹 PIANO MODE · A–K = notalar · P = kapat</div>
+
+  <!-- 4 — Quote overlay -->
+  <div id="alintıOv" onclick="if(event.target===this)document.getElementById('alintıOv').style.display='none'">
+    <div id="alintıKutu" onclick="event.stopPropagation()">
+      <div id="alintıMetin"></div>
+      <div id="alintıYazar"></div>
+    </div>
+  </div>
+
+  <!-- 5 — Pomodoro panel -->
+  <div class="yp" id="pomodoroPanel2">
+    <button class="yp-kapat" onclick="document.getElementById('pomodoroPanel2').style.display='none'">✕</button>
+    <h3>Pomodoro</h3>
+    <div style="font-size:8px;letter-spacing:2px;opacity:0.4;text-align:center;margin-bottom:4px;" id="pomodoroMod">WORK</div>
+    <div class="yp-ekran" id="pomodoroEkran">25:00</div>
+    <div style="text-align:center;">
+      <button class="yp-btn" onclick="pomodoroBaslat()">▶</button>
+      <button class="yp-btn" onclick="pomodoroDur()">⏸</button>
+      <button class="yp-btn" onclick="pomodoroSifirla()">↺</button>
+    </div>
+  </div>
+
+  <!-- 6 — Achievements overlay + toast -->
+  <div id="basariOv" onclick="if(event.target===this)document.getElementById('basariOv').style.display='none'">
+    <div id="basariKutu" onclick="event.stopPropagation()">
+      <h3>Achievements</h3>
+      <div id="basariListesi"></div>
+    </div>
+  </div>
+  <div id="basariTost"></div>
+
+  <!-- 7 — Theme presets overlay -->
+  <div id="temaOv" onclick="if(event.target===this)document.getElementById('temaOv').style.display='none'">
+    <div id="temaKutu" onclick="event.stopPropagation()">
+      <h3>Theme Presets</h3>
+      <div class="tema-grid">
+        <div class="tema-secim" onclick="temaUygula('sicak')"><span class="tema-on" style="background:linear-gradient(90deg,#c4a265,#8b5e2a)"></span>Warm Parchment</div>
+        <div class="tema-secim" onclick="temaUygula('serin')"><span class="tema-on" style="background:linear-gradient(90deg,#5a8fa8,#2d4f6e)"></span>Cool Slate</div>
+        <div class="tema-secim" onclick="temaUygula('orman')"><span class="tema-on" style="background:linear-gradient(90deg,#5a8a5a,#2d5a2d)"></span>Forest</div>
+        <div class="tema-secim" onclick="temaUygula('gece')"><span class="tema-on" style="background:linear-gradient(90deg,#8a7ab0,#3d2d5a)"></span>Midnight</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 — Keyboard shortcuts overlay -->
+  <div id="kisayolOv" onclick="if(event.target===this)document.getElementById('kisayolOv').style.display='none'">
+    <div id="kisayolKutu" onclick="event.stopPropagation()">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="ks-satir"><span>This panel</span><span class="kbd">?</span></div>
+      <div class="ks-satir"><span>Piano mode</span><span class="kbd">P</span></div>
+      <div class="ks-satir"><span>Confetti</span><span class="kbd">C</span></div>
+      <div class="ks-satir"><span>Breathing</span><span class="kbd">B</span></div>
+      <div class="ks-satir"><span>Quote</span><span class="kbd">Q</span></div>
+      <div class="ks-satir"><span>Matrix rain</span><span class="kbd">M (hold 1.8s)</span></div>
+      <div class="ks-satir"><span>Konami</span><span class="kbd">↑↑↓↓←→←→BA</span></div>
+      <div class="ks-satir"><span>Close overlays</span><span class="kbd">Esc</span></div>
+    </div>
+  </div>
 
   <!-- BUTON SİHRİ MODAL -->
   <div id="sihrModal" onclick="if(event.target===this)butonSihriKapat()">
