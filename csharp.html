@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İlk C#</title>
+  <style>
+    :root {
+      --renk-arka-plan: #001b10;
+      --renk-kart:      #000506;
+      --renk-baslik:    #4a9a27;
+      --renk-metin:     #85aa99;
+      --renk-vurgu:     #00613b;
+      --renk-vurgu2:    #36590a;
+      --yari-cerceve:   20px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(160deg, #001b10 0%, #002917 40%, #172900 100%);
+      color: var(--renk-metin);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .kart {
+      background-color: var(--renk-kart);
+      border-radius: var(--yari-cerceve);
+      padding: 48px 40px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 12px 36px rgba(55, 135, 85, 0.25);
+      border: 3px dashed #00381f;
+    }
+
+    .emoji-buyuk {
+      font-size: 80px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      color: var(--renk-baslik);
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
+
+    .tanitim {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--renk-vurgu2);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .liste {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .liste li {
+      background-color: #000f09;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 1.02rem;
+    }
+
+    .kod-kutusu {
+      background-color: #c4d5b5;
+      color: #002913;
+      border-radius: 14px;
+      padding: 18px 20px;
+      text-align: left;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+
+    .kod-kutusu .yorum { color: #36590a; }
+    .kod-kutusu .anahtar { color: #00613b; }
+    .kod-kutusu .metin { color: #590a36; }
+
+    .etiketler {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .etiket {
+      background-color: var(--renk-vurgu);
+      color: #95d0b1;
+      border-radius: 20px;
+      padding: 10px 22px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .buton {
+      background-color: var(--renk-baslik);
+      color: #000000;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      box-shadow: 0 6px 18px rgba(74, 154, 39, 0.35);
+    }
+
+    .buton:hover  { opacity: 0.9; }
+    .buton:active { transform: scale(0.96); }
+  </style>
+</head>
+
+<body>
+  <div class="kart">
+
+    <div class="emoji-buyuk">💜🍬</div>
+
+    <h1>Merhaba, C#!</h1>
+
+    <p class="tanitim">
+      C#, Microsoft tarafından geliştirilen, çok sevilen bir programlama dili.
+      Oyunlardan uygulamalara kadar birçok şey yapmak için kullanılıyor! 🎀
+    </p>
+
+    <h2>Bilmen Gerekenler</h2>
+    <ul class="liste">
+      <li>🏢 Microsoft tarafından yapılmış</li>
+      <li>🎮 Unity ile oyun yapmak için kullanılıyor</li>
+      <li>📦 Nesne yönelimli bir dil (her şey bir "obje"!)</li>
+      <li>🖨️ <code>Console.WriteLine()</code> ile ekrana yazı yazdırılır</li>
+    </ul>
+
+    <h2>İlk C# Kodum</h2>
+    <div class="kod-kutusu">
+<span class="yorum">// Merhaba Dünya!</span><br>
+<span class="anahtar">using</span> System;<br><br>
+<span class="anahtar">class</span> Program<br>
+{<br>
+&nbsp;&nbsp;<span class="anahtar">static void</span> Main()<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="metin">"Merhaba Dünya! 🍭"</span>);<br>
+&nbsp;&nbsp;}<br>
+}
+    </div>
+
+    <div class="etiketler">
+      <span class="etiket">Microsoft</span>
+      <span class="etiket">Unity</span>
+      <span class="etiket">Nesne Yönelimli</span>
+    </div>
+
+    <button class="buton" onclick="alert('Harika gidiyorsun! 🍭🎉')">Bana Tıkla</button>
+
+  </div>
+</body>
+</html>
